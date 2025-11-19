@@ -1,0 +1,70 @@
+<section class="py-12 bg-[#f5f5f7]">
+  <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-gray-800 mb-8">
+      <span class="text-blue-600">Trending Categories.</span> Most popular this week.
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      @for (category of trendingCategories(); track category.id; let i = $index) {
+        @if (i < 3) {
+          <a href="#" class="group relative block bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+            <!-- Rank Badge -->
+            <div class="absolute top-4 left-4 z-10">
+              <span class="text-3xl">{{ getRankBadge(category.rank) }}</span>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 text-center">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-1">{{ category.name }}</h3>
+              <p class="text-sm text-gray-600 mb-1">{{ category.subtitle }}</p>
+              <p class="text-sm text-gray-500 mb-6">{{ category.price }}</p>
+
+              <!-- Image -->
+              <div class="flex justify-center items-center h-48">
+                <img 
+                  [src]="category.imageUrl" 
+                  [alt]="category.name"
+                  class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+              </div>
+            </div>
+
+            <!-- Decorative gradient border on hover -->
+            <div class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-200 transition-colors duration-300"></div>
+          </a>
+        }
+      }
+    </div>
+
+    <!-- Bottom 2 items -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      @for (category of trendingCategories(); track category.id; let i = $index) {
+        @if (i >= 3) {
+          <a href="#" class="group relative block bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
+            <!-- Rank Badge -->
+            <div class="absolute top-4 left-4 z-10">
+              <span class="text-2xl">{{ getRankBadge(category.rank) }}</span>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 text-center">
+              <h3 class="text-xl font-semibold text-gray-800 mb-1">{{ category.name }}</h3>
+              <p class="text-sm text-gray-600 mb-1">{{ category.subtitle }}</p>
+              <p class="text-sm text-gray-500 mb-4">{{ category.price }}</p>
+
+              <!-- Image -->
+              <div class="flex justify-center items-center h-32">
+                <img 
+                  [src]="category.imageUrl" 
+                  [alt]="category.name"
+                  class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500">
+              </div>
+            </div>
+
+            <!-- Decorative gradient border on hover -->
+            <div class="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-blue-200 transition-colors duration-300"></div>
+          </a>
+        }
+      }
+    </div>
+  </div>
+</section>

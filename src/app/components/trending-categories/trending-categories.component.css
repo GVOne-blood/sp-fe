@@ -1,0 +1,4 @@
+/* Smooth animations */
+:host {
+  display: block;
+}
