@@ -16,15 +16,16 @@ interface Product {
   image: string;
   sold: number;
   likes: number;
+  rating?: number; // Added rating
   isSoldOut: boolean;
   categoryId: number;
-  description?: string; // e.g. "Topping: Trân châu trắng"
+  description?: string;
 }
 
 interface CartItem {
   product: Product;
   quantity: number;
-  note?: string; // For "Đá/Nóng: Đá" etc.
+  note?: string;
 }
 
 @Component({
@@ -69,6 +70,7 @@ export class StoreDetailComponent {
       image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=200&q=80',
       sold: 1200,
       likes: 500,
+      rating: 4.8,
       isSoldOut: false,
       categoryId: 1,
       description: 'ĐÁ/NÓNG: ĐÁ'
@@ -80,6 +82,7 @@ export class StoreDetailComponent {
       image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=200&q=80',
       sold: 850,
       likes: 300,
+      rating: 4.9,
       isSoldOut: false,
       categoryId: 1
     },
@@ -90,6 +93,7 @@ export class StoreDetailComponent {
       image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=200&q=80',
       sold: 200,
       likes: 150,
+      rating: 4.5,
       isSoldOut: false,
       categoryId: 6,
       description: 'TOPPING: TRÂN CHÂU TRẮNG'
@@ -101,6 +105,7 @@ export class StoreDetailComponent {
       image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=200&q=80',
       sold: 50,
       likes: 20,
+      rating: 4.2,
       isSoldOut: false,
       categoryId: 5
     }
@@ -164,7 +169,13 @@ export class StoreDetailComponent {
   }
 
   toggleLike(product: Product) {
-    // Just a visual toggle for mock
     console.log('Liked', product.name);
+  }
+
+  scrollToCategory(categoryId: number) {
+    const element = document.getElementById(`category-${categoryId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }
