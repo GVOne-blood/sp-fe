@@ -2,6 +2,12 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
+interface Category {
+  id: number;
+  name: string;
+  count: number;
+}
+
 interface Product {
   id: number;
   name: string;
@@ -11,11 +17,14 @@ interface Product {
   sold: number;
   likes: number;
   isSoldOut: boolean;
+  categoryId: number;
+  description?: string; // e.g. "Topping: Trân châu trắng"
 }
 
 interface CartItem {
   product: Product;
   quantity: number;
+  note?: string; // For "Đá/Nóng: Đá" etc.
 }
 
 @Component({
@@ -30,63 +39,82 @@ export class StoreDetailComponent {
 
   // Mock Store Data
   storeInfo = {
-    name: 'Cơm Tấm Sài Gòn - Nguyễn Trãi',
-    address: '123 Nguyễn Trãi, Quận 5, TP. HCM',
-    rating: 4.8,
-    reviewCount: '999+',
+    name: 'The Coffee Factory - Trương Định',
+    address: '107A Trương Định, Phường Võ Thị Sáu, Quận 3, Hồ Chí Minh',
+    rating: 5,
+    reviewCount: '102',
     openTime: '07:00 - 22:00',
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80' // Placeholder
+    distance: '1357.7 km',
+    image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=80'
   };
+
+  // Categories
+  categories = signal<Category[]>([
+    { id: 1, name: 'CÀ PHÊ VIỆT', count: 6 },
+    { id: 2, name: 'CÀ PHÊ Ý', count: 3 },
+    { id: 3, name: 'TRÀ/TRÀ SỮA', count: 17 },
+    { id: 4, name: 'NƯỚC ÉP/MÓN KHÁC', count: 7 },
+    { id: 5, name: 'SODA', count: 2 },
+    { id: 6, name: 'TCF KEM MUỐI', count: 6 },
+    { id: 7, name: 'TCF CAKE', count: 14 },
+    { id: 8, name: 'ĐÁ XAY', count: 8 }
+  ]);
 
   // Mock Products
   products = signal<Product[]>([
     {
       id: 1,
-      name: 'Cơm Tấm Sườn Bì Chả',
-      price: 45000,
-      originalPrice: 55000,
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=200&q=80',
+      name: 'Bạc Xỉu',
+      price: 39000,
+      image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=200&q=80',
       sold: 1200,
       likes: 500,
-      isSoldOut: false
+      isSoldOut: false,
+      categoryId: 1,
+      description: 'ĐÁ/NÓNG: ĐÁ'
     },
     {
       id: 2,
-      name: 'Cơm Tấm Sườn Cây',
-      price: 65000,
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=200&q=80',
+      name: 'Cà Phê Sữa Đá',
+      price: 35000,
+      image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?auto=format&fit=crop&w=200&q=80',
       sold: 850,
       likes: 300,
-      isSoldOut: false
+      isSoldOut: false,
+      categoryId: 1
     },
     {
       id: 3,
-      name: 'Cơm Tấm Gà Nướng (Hết)',
-      price: 40000,
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=200&q=80',
-      sold: 2000,
-      likes: 800,
-      isSoldOut: true
+      name: 'Trà Sen Kem Muối',
+      price: 56000,
+      image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=200&q=80',
+      sold: 200,
+      likes: 150,
+      isSoldOut: false,
+      categoryId: 6,
+      description: 'TOPPING: TRÂN CHÂU TRẮNG'
     },
     {
       id: 4,
-      name: 'Bún Thịt Nướng',
-      price: 35000,
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=200&q=80',
-      sold: 150,
-      likes: 50,
-      isSoldOut: false
-    },
-    {
-      id: 5,
-      name: 'Bì Cuốn',
-      price: 10000,
-      image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=200&q=80',
-      sold: 5000,
-      likes: 1200,
-      isSoldOut: true
+      name: 'Soda Việt Quất',
+      price: 45000,
+      image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=200&q=80',
+      sold: 50,
+      likes: 20,
+      isSoldOut: false,
+      categoryId: 5
     }
   ]);
+
+  // Grouped products
+  groupedProducts = computed(() => {
+    const prods = this.products();
+    const cats = this.categories();
+    return cats.map(cat => ({
+      ...cat,
+      products: prods.filter(p => p.categoryId === cat.id)
+    })).filter(group => group.products.length > 0);
+  });
 
   // Cart Logic
   cart = signal<CartItem[]>([]);
@@ -115,7 +143,7 @@ export class StoreDetailComponent {
             : item
         );
       } else {
-        return [...currentCart, { product, quantity: 1 }];
+        return [...currentCart, { product, quantity: 1, note: product.description }];
       }
     });
   }
@@ -133,5 +161,10 @@ export class StoreDetailComponent {
         return currentCart.filter(item => item.product.id !== productId);
       }
     });
+  }
+
+  toggleLike(product: Product) {
+    // Just a visual toggle for mock
+    console.log('Liked', product.name);
   }
 }
