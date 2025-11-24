@@ -1,0 +1,121 @@
+<div class="min-h-screen bg-gray-50 pb-10">
+  <!-- Store Header -->
+  <div class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+      <div class="w-full md:w-1/3 lg:w-1/4">
+        <img [src]="storeInfo.image" alt="Store Image" class="w-full h-48 object-cover rounded-lg shadow-md">
+      </div>
+      <div class="flex-1 flex flex-col justify-center">
+        <div class="text-sm text-gray-500 mb-1">Nhà hàng</div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ storeInfo.name }}</h1>
+        <div class="text-gray-600 mb-2">{{ storeInfo.address }}</div>
+        <div class="flex items-center gap-4 text-sm">
+          <div class="flex items-center text-yellow-500">
+            <span class="font-bold mr-1">{{ storeInfo.rating }}</span>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+            <span class="text-gray-400 ml-1">({{ storeInfo.reviewCount }}+ đánh giá)</span>
+          </div>
+          <div class="text-green-600 font-medium flex items-center">
+            <span class="w-2 h-2 bg-green-600 rounded-full mr-2"></span>
+            Mở cửa • {{ storeInfo.openTime }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- Product List -->
+    <div class="flex-1">
+      <h2 class="text-xl font-bold text-gray-800 mb-6 uppercase border-l-4 border-red-500 pl-3">Thực đơn</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+        <div *ngFor="let product of products()"
+             class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex gap-4 transition hover:shadow-md"
+             [class.opacity-60]="product.isSoldOut">
+
+          <!-- Product Image -->
+          <div class="relative w-32 h-32 flex-shrink-0">
+            <img [src]="product.image" [alt]="product.name" class="w-full h-full object-cover rounded-md">
+            <div *ngIf="product.isSoldOut" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
+              <span class="text-white font-bold text-sm px-2 py-1 border border-white rounded">HẾT MÓN</span>
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="flex-1 flex flex-col">
+            <h3 class="font-semibold text-gray-800 text-lg mb-1 line-clamp-2">{{ product.name }}</h3>
+            <div class="text-xs text-gray-500 mb-2">Đã bán {{ product.sold }}+ | <span class="text-blue-500">👍 {{ product.likes }}</span></div>
+
+            <div class="mt-auto flex items-end justify-between">
+              <div>
+                <div *ngIf="product.originalPrice" class="text-xs text-gray-400 line-through">{{ product.originalPrice | number }}đ</div>
+                <div class="text-red-600 font-bold text-xl">{{ product.price | number }}đ</div>
+              </div>
+
+              <button
+                (click)="addToCart(product)"
+                [disabled]="product.isSoldOut"
+                class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Sidebar (Sticky) -->
+    <div class="w-full lg:w-80 flex-shrink-0">
+      <div class="bg-white rounded-lg shadow-md sticky top-4 border border-gray-100 overflow-hidden">
+        <div class="p-4 border-b border-gray-100 bg-gray-50">
+          <h3 class="font-bold text-gray-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            Giỏ hàng <span class="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{{ cartCount() }}</span>
+          </h3>
+        </div>
+
+        <!-- Empty Cart State -->
+        <div *ngIf="cart().length === 0" class="p-8 text-center text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-2 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <p class="text-sm">Chưa có món nào</p>
+        </div>
+
+        <!-- Cart Items -->
+        <div *ngIf="cart().length > 0" class="max-h-96 overflow-y-auto">
+          <div *ngFor="let item of cart()" class="p-3 border-b border-gray-50 flex gap-2 items-center">
+            <div class="flex-1">
+              <div class="text-sm font-medium text-gray-800 line-clamp-1">{{ item.product.name }}</div>
+              <div class="text-xs text-gray-500">{{ item.product.price | number }}đ</div>
+            </div>
+            <div class="flex items-center border rounded-md">
+              <button (click)="removeFromCart(item.product.id)" class="px-2 py-1 hover:bg-gray-100 text-gray-600">-</button>
+              <span class="px-2 text-sm font-medium">{{ item.quantity }}</span>
+              <button (click)="addToCart(item.product)" class="px-2 py-1 hover:bg-gray-100 text-green-600">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total & Checkout -->
+        <div class="p-4 bg-gray-50">
+          <div class="flex justify-between items-center mb-4 text-sm">
+            <span class="text-gray-600">Tổng cộng</span>
+            <span class="text-xl font-bold text-red-600">{{ cartTotal() | number }}đ</span>
+          </div>
+          <button [disabled]="cart().length === 0"
+                  class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed shadow-md">
+            Đặt đơn ngay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
