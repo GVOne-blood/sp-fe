@@ -1,0 +1,244 @@
+<!-- Modal Overlay -->
+<div *ngIf="isOpen && product" 
+     class="fixed inset-0 z-50 flex items-end md:items-center justify-center md:p-4 modal-overlay"
+     [class.modal-overlay-closing]="isClosing()"
+     (click)="onOverlayClick()"
+     role="dialog"
+     aria-modal="true"
+     [attr.aria-labelledby]="'modal-title-' + product.id"
+     [attr.aria-describedby]="'modal-description-' + product.id">
+  
+  <!-- Modal Content - Full screen on mobile, centered dialog on desktop -->
+  <div #modalContent class="bg-white w-full modal-content"
+       [class.modal-content-closing]="isClosing()"
+       (click)="$event.stopPropagation()">
+    
+    <!-- Floating Close Button - Large circular white button overlapping corner -->
+    <button (click)="closeModal()" 
+            class="absolute -top-6 -right-6 z-50 w-16 h-16 flex items-center justify-center rounded-full shadow-2xl"
+            style="background-color: white; transition: all var(--transition-base);"
+            onmouseover="this.style.transform='scale(1.05)'"
+            onmouseout="this.style.transform='scale(1)'"
+            aria-label="Đóng cửa sổ chi tiết sản phẩm"
+            type="button">
+      <svg class="w-7 h-7" style="color: #4a5568;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Product Image -->
+    <div class="relative w-full h-64 md:h-72 overflow-hidden md:rounded-t-2xl" 
+         style="background-color: var(--color-gray-200);">
+      <img [src]="product.image" 
+           [alt]="product.name"
+           class="w-full h-full object-cover"
+           loading="lazy"
+           (error)="onImageError($event)">
+    </div>
+
+    <!-- Product Details -->
+    <div class="p-4 md:p-6">
+      <!-- Product Name -->
+      <h2 [id]="'modal-title-' + product.id" class="text-2xl font-bold mb-2" style="color: var(--text-primary);">{{ product.name }}</h2>
+
+      <!-- Rating and Sold Count -->
+      <div class="flex items-center gap-4 mb-4">
+        <app-star-rating 
+          *ngIf="product.rating"
+          [rating]="product.rating" 
+          [size]="'sm'"
+          [showNumber]="true">
+        </app-star-rating>
+        <span class="text-sm" style="color: var(--text-muted);">Đã bán {{ product.sold }}</span>
+      </div>
+
+      <!-- Price -->
+      <div class="flex items-center gap-2 mb-4">
+        <span class="text-2xl font-bold" style="color: var(--color-primary);">{{ formatPrice(product.price) }}đ</span>
+        <span *ngIf="product.originalPrice" 
+              class="text-lg line-through" style="color: var(--text-muted);">{{ formatPrice(product.originalPrice) }}đ</span>
+      </div>
+
+      <!-- Description -->
+      <p *ngIf="product.description" [id]="'modal-description-' + product.id" class="mb-4" style="color: var(--text-secondary);">{{ product.description }}</p>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Customization Options -->
+      <div *ngIf="product.customizationGroups && product.customizationGroups.length > 0">
+        <!-- Small groups in two-column grid (size, temperature, etc.) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div *ngFor="let group of getSmallGroups(); trackBy: trackByGroup">
+            <h3 class="text-base font-semibold mb-3" style="color: var(--text-primary);">
+              {{ group.name }}
+              <span *ngIf="group.required" class="text-sm" style="color: var(--color-error);">*</span>
+            </h3>
+            
+            <!-- Validation error message -->
+            <p *ngIf="getValidationError(group.id)" 
+               class="text-sm mb-2 fade-in" 
+               style="color: var(--color-error);"
+               role="alert"
+               aria-live="polite"
+               [id]="'error-' + group.id">
+              {{ getValidationError(group.id) }}
+            </p>
+            
+            <div class="space-y-2">
+              <label *ngFor="let option of group.options; trackBy: trackByOption" 
+                     class="flex items-center justify-between p-3 rounded-lg cursor-pointer"
+                     style="border: 1px solid var(--border-default); transition: all var(--transition-base);"
+                     [style.border-color]="isOptionSelected(group.id, option.id) ? 'var(--color-primary)' : 'var(--border-default)'"
+                     [style.background-color]="isOptionSelected(group.id, option.id) ? 'var(--color-primary-light)' : 'transparent'"
+                     onmouseover="if (!this.classList.contains('selected')) this.style.backgroundColor='var(--bg-hover)'"
+                     onmouseout="if (!this.classList.contains('selected')) this.style.backgroundColor='transparent'"
+                     [class.selected]="isOptionSelected(group.id, option.id)">
+                <div class="flex items-center gap-3">
+                  <input type="radio" 
+                         [name]="group.id"
+                         [checked]="isOptionSelected(group.id, option.id)"
+                         (change)="selectOption(group.id, option.id)"
+                         class="w-4 h-4"
+                         style="accent-color: var(--color-primary);"
+                         [attr.aria-describedby]="getValidationError(group.id) ? 'error-' + group.id : null"
+                         [attr.aria-label]="option.name + (option.priceModifier > 0 ? ', thêm ' + formatPrice(option.priceModifier) + ' đồng' : '')">
+                  <span class="text-sm" style="color: var(--text-primary);">{{ option.name }}</span>
+                </div>
+                <span *ngIf="option.priceModifier > 0" 
+                      class="text-sm font-medium" style="color: var(--color-primary);">+{{ formatPrice(option.priceModifier) }}đ</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider if there are small groups -->
+        <div *ngIf="getSmallGroups().length > 0" class="divider"></div>
+
+        <!-- Large groups full-width (toppings, add-ons, etc.) -->
+        <div *ngFor="let group of getLargeGroups(); trackBy: trackByGroup" class="mb-4">
+          <h3 class="text-base font-semibold mb-3" style="color: var(--text-primary);">
+            {{ group.name }}
+            <span *ngIf="group.required" class="text-sm" style="color: var(--color-error);">*</span>
+          </h3>
+          
+          <!-- Validation error message -->
+          <p *ngIf="getValidationError(group.id)" 
+             class="text-sm mb-2 fade-in" 
+             style="color: var(--color-error);"
+             role="alert"
+             aria-live="polite"
+             [id]="'error-' + group.id">
+            {{ getValidationError(group.id) }}
+          </p>
+          
+          <div class="space-y-2">
+            <label *ngFor="let option of group.options; trackBy: trackByOption" 
+                   class="flex items-center justify-between p-3 rounded-lg cursor-pointer"
+                   style="border: 1px solid var(--border-default); transition: all var(--transition-base);"
+                   [style.border-color]="isOptionSelected(group.id, option.id) ? 'var(--color-primary)' : 'var(--border-default)'"
+                   [style.background-color]="isOptionSelected(group.id, option.id) ? 'var(--color-primary-light)' : 'transparent'"
+                   onmouseover="if (!this.classList.contains('selected')) this.style.backgroundColor='var(--bg-hover)'"
+                   onmouseout="if (!this.classList.contains('selected')) this.style.backgroundColor='transparent'"
+                   [class.selected]="isOptionSelected(group.id, option.id)">
+              <div class="flex items-center gap-3">
+                <input type="radio" 
+                       [name]="group.id"
+                       [checked]="isOptionSelected(group.id, option.id)"
+                       (change)="selectOption(group.id, option.id)"
+                       class="w-4 h-4"
+                       style="accent-color: var(--color-primary);"
+                       [attr.aria-describedby]="getValidationError(group.id) ? 'error-' + group.id : null"
+                       [attr.aria-label]="option.name + (option.priceModifier > 0 ? ', thêm ' + formatPrice(option.priceModifier) + ' đồng' : '')">
+                <span style="color: var(--text-primary);">{{ option.name }}</span>
+              </div>
+              <span *ngIf="option.priceModifier > 0" 
+                    class="font-medium" style="color: var(--color-primary);">+{{ formatPrice(option.priceModifier) }}đ</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Divider after customization options -->
+        <div *ngIf="getLargeGroups().length > 0" class="divider"></div>
+      </div>
+
+      <!-- Customer Note -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
+          Ghi chú cho quán
+        </label>
+        <textarea 
+          [ngModel]="customerNote()"
+          (ngModelChange)="customerNote.set($event)"
+          rows="3"
+          placeholder="Ví dụ: Ít đường, nhiều đá..."
+          class="w-full px-4 py-2 rounded-lg resize-none"
+          style="border: 1px solid var(--border-default); transition: all var(--transition-base);"
+          onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 3px var(--color-primary-light)'"
+          onblur="this.style.borderColor='var(--border-default)'; this.style.boxShadow='none'"
+          aria-label="Ghi chú cho quán">
+        </textarea>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Bottom Action Bar: Quantity Controls + Add to Cart Button -->
+      <div class="flex items-center gap-4">
+        <!-- Quantity Controls (left side) -->
+        <div class="flex items-center gap-2">
+          <button (click)="decrementQuantity()"
+                  [disabled]="quantity() <= 1"
+                  class="w-10 h-10 flex items-center justify-center rounded-lg"
+                  style="background-color: var(--color-primary); color: var(--text-on-primary); transition: all var(--transition-base);"
+                  [style.opacity]="quantity() <= 1 ? '0.5' : '1'"
+                  [style.cursor]="quantity() <= 1 ? 'not-allowed' : 'pointer'"
+                  onmouseover="if (!this.disabled) this.style.backgroundColor='var(--color-primary-hover)'; if (!this.disabled) this.style.transform='scale(1.05)'"
+                  onmouseout="if (!this.disabled) this.style.backgroundColor='var(--color-primary)'; if (!this.disabled) this.style.transform='scale(1)'"
+                  onmousedown="if (!this.disabled) this.style.transform='scale(0.95)'"
+                  onmouseup="if (!this.disabled) this.style.transform='scale(1.05)'"
+                  aria-label="Giảm số lượng"
+                  type="button">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+            </svg>
+          </button>
+          <span class="text-lg font-semibold w-8 text-center" style="color: var(--text-primary);" aria-live="polite" aria-atomic="true">{{ quantity() }}</span>
+          <button (click)="incrementQuantity()"
+                  class="w-10 h-10 flex items-center justify-center rounded-lg"
+                  style="background-color: var(--color-primary); color: var(--text-on-primary); transition: all var(--transition-base);"
+                  onmouseover="this.style.backgroundColor='var(--color-primary-hover)'; this.style.transform='scale(1.05)'"
+                  onmouseout="this.style.backgroundColor='var(--color-primary)'; this.style.transform='scale(1)'"
+                  onmousedown="this.style.transform='scale(0.95)'"
+                  onmouseup="this.style.transform='scale(1.05)'"
+                  aria-label="Tăng số lượng"
+                  type="button">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Add to Cart Button (flex-1 to take remaining space) - Always enabled -->
+        <button (click)="onAddToCart()"
+                [disabled]="product.isSoldOut || isAddingToCart()"
+                class="flex-1 py-4 font-semibold rounded-xl"
+                style="background-color: var(--color-primary); color: var(--text-on-primary); transition: all var(--transition-slow);"
+                [style.background-color]="(product.isSoldOut || isAddingToCart()) ? 'var(--color-gray-300)' : 'var(--color-primary)'"
+                [style.cursor]="(product.isSoldOut || isAddingToCart()) ? 'not-allowed' : 'pointer'"
+                onmouseover="if (!this.disabled) this.style.backgroundColor='var(--color-primary-hover)'; if (!this.disabled) this.style.boxShadow='var(--shadow-lg)'"
+                onmouseout="if (!this.disabled) this.style.backgroundColor='var(--color-primary)'; if (!this.disabled) this.style.boxShadow='none'"
+                onmousedown="if (!this.disabled) this.style.transform='scale(0.98)'"
+                onmouseup="if (!this.disabled) this.style.transform='scale(1)'"
+                type="button"
+                [attr.aria-label]="product.isSoldOut ? 'Sản phẩm hết hàng' : (isEditMode() ? 'Cập nhật giỏ hàng với giá ' + formatPrice(totalPrice()) + ' đồng' : 'Thêm vào giỏ hàng với giá ' + formatPrice(totalPrice()) + ' đồng')">
+          <span *ngIf="!product.isSoldOut && !isAddingToCart()">
+            {{ isEditMode() ? 'Cập nhật' : 'Thêm vào giỏ' }} - {{ formatPrice(totalPrice()) }}đ
+          </span>
+          <span *ngIf="isAddingToCart()" aria-live="polite">{{ isEditMode() ? 'Đang cập nhật...' : 'Đang thêm...' }}</span>
+          <span *ngIf="product.isSoldOut">Hết hàng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
