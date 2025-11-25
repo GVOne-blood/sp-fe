@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/**/*.{html,ts}",
   ],
@@ -15,10 +16,18 @@ module.exports = {
         // Background
         'bg': {
           'primary': '#F5F5F7',
-        }
+        },
+        // From registration page
+        primary: "#1d72f5",
+        "background-light": "#f5f5f7",
+        "background-dark": "#1d1d1f",
       },
       fontFamily: {
         'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        'display': ['Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        DEFAULT: "1.125rem",
       },
       animation: {
         'dropdown': 'dropdownFade 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards',
