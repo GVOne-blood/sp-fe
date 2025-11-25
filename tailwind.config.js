@@ -17,7 +17,6 @@ module.exports = {
         'bg': {
           'primary': '#F5F5F7',
         },
-        // From registration page
         primary: "#1d72f5",
         "background-light": "#f5f5f7",
         "background-dark": "#1d1d1f",
