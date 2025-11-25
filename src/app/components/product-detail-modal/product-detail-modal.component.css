@@ -1,0 +1,251 @@
+/* Modal Overlay Animations */
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: backdropFadeIn 0.3s ease-out;
+  transition: background-color 0.3s ease-out;
+}
+
+.modal-overlay-closing {
+  animation: backdropFadeOut 0.3s ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+/* Modal Content Base Styles */
+.modal-content {
+  position: relative;
+  /* Ensure smooth scrolling on all devices */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Mobile: Full-screen modal (below 768px) */
+@media (max-width: 767px) {
+  .modal-content {
+    /* Full screen on mobile */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 95vh;
+    height: 95vh;
+    border-radius: 1rem 1rem 0 0;
+    /* Ensure content is scrollable */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+/* Desktop: Centered dialog (768px and above) */
+@media (min-width: 768px) {
+  .modal-content {
+    /* Centered dialog on desktop */
+    max-width: 32rem; /* 512px */
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 1rem;
+    /* Enable scrolling but hide scrollbar completely */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Hide scrollbar completely */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .modal-content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Desktop animations - scale with fade */
+@media (min-width: 768px) {
+  .modal-content {
+    animation: modalFadeInScale 0.3s ease-out;
+  }
+
+  .modal-content-closing {
+    animation: modalFadeOutScale 0.3s ease-out;
+  }
+
+  @keyframes modalFadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes modalFadeOutScale {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* Mobile animations - slide up with fade */
+@media (max-width: 767px) {
+  .modal-content {
+    animation: modalSlideUp 0.3s ease-out;
+  }
+
+  .modal-content-closing {
+    animation: modalSlideDown 0.3s ease-out;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes modalSlideDown {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+}
+
+/* Close button animations */
+.modal-content button {
+  transition: all 0.2s ease-out;
+}
+
+.modal-content button:hover:not(:disabled) {
+  transition: all 0.2s ease-out;
+}
+
+/* Customization option animations */
+.modal-content label {
+  transition: all 0.2s ease-out;
+}
+
+.modal-content label:hover {
+  transition: all 0.2s ease-out;
+}
+
+/* Quantity button animations */
+.modal-content button:disabled {
+  transition: opacity 0.2s ease-out;
+}
+
+/* Add to cart button animations */
+.modal-content button[class*="bg-orange"] {
+  transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
+}
+
+.modal-content button[class*="bg-orange"]:hover:not(:disabled) {
+  transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
+}
+
+.modal-content button[class*="bg-orange"]:active:not(:disabled) {
+  transform: scale(0.98);
+  transition: transform 0.1s ease-out;
+}
+
+/* Prevent body scroll when modal is open */
+:host {
+  display: contents;
+}
+
+/* Smooth scrolling within modal */
+.modal-content {
+  scroll-behavior: smooth;
+}
+
+/* Mobile: Hide scrollbar on mobile for cleaner look */
+@media (max-width: 767px) {
+  .modal-content::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  
+  /* Ensure scrolling still works */
+  .modal-content {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+}
+
+/* Input focus animations */
+.modal-content textarea:focus,
+.modal-content input:focus {
+  transition: all 0.2s ease-out;
+}
+
+.modal-content textarea,
+.modal-content input {
+  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+/* Radio button animations */
+.modal-content input[type="radio"] {
+  transition: all 0.2s ease-out;
+}
+
+/* Image loading animation */
+.modal-content img {
+  transition: opacity 0.3s ease-out;
+}
+
+/* Validation error message animation */
+.modal-content .text-red-500 {
+  animation: errorSlideDown 0.3s ease-out;
+}
+
+@keyframes errorSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Border and background transitions for selected options */
+.modal-content label[class*="border-orange"] {
+  transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+/* Price display transitions */
+.modal-content span[class*="text-orange"] {
+  transition: color 0.2s ease-out;
+}
