@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { StarRatingComponent } from '../../components/star-rating/star-rating.component';
 import { ProductDetailModalComponent } from '../../components/product-detail-modal/product-detail-modal.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 interface Category {
   id: number;
@@ -60,7 +61,7 @@ interface StoreInfo {
 @Component({
   selector: 'app-store-detail',
   standalone: true,
-  imports: [CommonModule, StarRatingComponent, ProductDetailModalComponent],
+  imports: [CommonModule, StarRatingComponent, ProductDetailModalComponent, FooterComponent],
   templateUrl: './store-detail.component.html',
   styleUrl: './store-detail.component.css'
 })

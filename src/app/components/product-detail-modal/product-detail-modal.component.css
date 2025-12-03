@@ -1,234 +1,30 @@
-/* Modal Overlay Animations */
-.modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  animation: backdropFadeIn 0.3s ease-out;
-  transition: background-color 0.3s ease-out;
-}
-
-.modal-overlay-closing {
-  animation: backdropFadeOut 0.3s ease-out;
-}
-
-@keyframes backdropFadeIn {
-  from {
-    background-color: rgba(0, 0, 0, 0);
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-}
-
-@keyframes backdropFadeOut {
-  from {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  to {
-    background-color: rgba(0, 0, 0, 0);
-  }
-}
-
-/* Modal Content Base Styles */
-.modal-content {
-  position: relative;
-  /* Ensure smooth scrolling on all devices */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-/* Mobile: Full-screen modal (below 768px) */
-@media (max-width: 767px) {
-  .modal-content {
-    /* Full screen on mobile */
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-height: 95vh;
-    height: 95vh;
-    border-radius: 1rem 1rem 0 0;
-    /* Ensure content is scrollable */
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-}
-
-/* Desktop: Centered dialog (768px and above) */
-@media (min-width: 768px) {
-  .modal-content {
-    /* Centered dialog on desktop */
-    max-width: 32rem; /* 512px */
-    width: 100%;
-    max-height: 90vh;
-    border-radius: 1rem;
-    /* Enable scrolling but hide scrollbar completely */
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* Hide scrollbar completely */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-  
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .modal-content::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-}
-
-/* Desktop animations - scale with fade */
-@media (min-width: 768px) {
-  .modal-content {
-    animation: modalFadeInScale 0.3s ease-out;
-  }
-
-  .modal-content-closing {
-    animation: modalFadeOutScale 0.3s ease-out;
-  }
-
-  @keyframes modalFadeInScale {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes modalFadeOutScale {
-    from {
-      opacity: 1;
-      transform: scale(1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-  }
-}
-
-/* Mobile animations - slide up with fade */
-@media (max-width: 767px) {
-  .modal-content {
-    animation: modalSlideUp 0.3s ease-out;
-  }
-
-  .modal-content-closing {
-    animation: modalSlideDown 0.3s ease-out;
-  }
-
-  @keyframes modalSlideUp {
-    from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes modalSlideDown {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-  }
-}
-
-/* Close button animations */
-.modal-content button {
-  transition: all 0.2s ease-out;
-}
-
-.modal-content button:hover:not(:disabled) {
-  transition: all 0.2s ease-out;
-}
-
-/* Customization option animations */
-.modal-content label {
-  transition: all 0.2s ease-out;
-}
-
-.modal-content label:hover {
-  transition: all 0.2s ease-out;
-}
-
-/* Quantity button animations */
-.modal-content button:disabled {
-  transition: opacity 0.2s ease-out;
-}
-
-/* Add to cart button animations */
-.modal-content button[class*="bg-orange"] {
-  transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
-}
-
-.modal-content button[class*="bg-orange"]:hover:not(:disabled) {
-  transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
-}
-
-.modal-content button[class*="bg-orange"]:active:not(:disabled) {
-  transform: scale(0.98);
-  transition: transform 0.1s ease-out;
-}
+/* Product Detail Modal Styles */
+/* Modal container, animations, and close button are defined in theme.css */
 
 /* Prevent body scroll when modal is open */
 :host {
   display: contents;
 }
 
-/* Smooth scrolling within modal */
-.modal-content {
-  scroll-behavior: smooth;
-}
-
-/* Mobile: Hide scrollbar on mobile for cleaner look */
-@media (max-width: 767px) {
-  .modal-content::-webkit-scrollbar {
-    width: 0;
-    display: none;
-  }
-  
-  /* Ensure scrolling still works */
-  .modal-content {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-}
-
-/* Input focus animations */
-.modal-content textarea:focus,
-.modal-content input:focus {
+/* Product-specific transitions */
+.modal-container button {
   transition: all 0.2s ease-out;
 }
 
-.modal-content textarea,
-.modal-content input {
+.modal-container label {
+  transition: all 0.2s ease-out;
+}
+
+.modal-container textarea,
+.modal-container input {
   transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-/* Radio button animations */
-.modal-content input[type="radio"] {
-  transition: all 0.2s ease-out;
-}
-
-/* Image loading animation */
-.modal-content img {
+.modal-container img {
   transition: opacity 0.3s ease-out;
 }
 
-/* Validation error message animation */
-.modal-content .text-red-500 {
-  animation: errorSlideDown 0.3s ease-out;
-}
-
+/* Validation error animation */
 @keyframes errorSlideDown {
   from {
     opacity: 0;
@@ -240,12 +36,236 @@
   }
 }
 
-/* Border and background transitions for selected options */
-.modal-content label[class*="border-orange"] {
-  transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+.fade-in {
+  animation: errorSlideDown 0.3s ease-out;
 }
 
-/* Price display transitions */
-.modal-content span[class*="text-orange"] {
-  transition: color 0.2s ease-out;
+/* ============================================
+   DUAL MODAL LAYOUT
+   Centers both modals when review modal is open
+   ============================================ */
+
+.dual-modal-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  transition: all 0.3s ease-out;
+}
+
+/* When review modal is active, both modals are centered together */
+.dual-modal-wrapper.has-review {
+  gap: 1.5rem;
+}
+
+/* Ensure both modals align at top */
+.dual-modal-wrapper > * {
+  align-self: flex-start;
+}
+
+/* Product modal adjustments when review is open */
+.product-modal {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   REVIEW MODAL - Dual Modal Layout
+   ============================================ */
+
+/* Slide animations */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-slideOutRight {
+  animation: slideOutRight 0.3s ease-out forwards;
+}
+
+/* Review Modal Container */
+.review-modal-container {
+  position: relative;
+  width: 36rem; /* Larger width - same as product modal */
+  max-height: 92vh; /* Larger height - same as product modal */
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  flex-shrink: 0;
+  transition: var(--theme-transition);
+}
+
+/* Fixed header - doesn't scroll */
+.review-modal-header {
+  flex-shrink: 0;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  z-index: 1;
+  transition: var(--theme-transition);
+}
+
+/* Scrollable content area */
+.review-modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  background: var(--bg-card);
+  transition: var(--theme-transition);
+}
+
+.review-modal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tablet and below: Stack modals or show as overlay */
+@media (max-width: 1024px) {
+  .dual-modal-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dual-modal-wrapper.has-review .product-modal {
+    display: none; /* Hide product modal on mobile when review is open */
+  }
+  
+  .review-modal-container {
+    width: calc(100% - 2rem);
+    max-width: 28rem;
+  }
+  
+  .animate-slideInRight {
+    animation: modalFadeInMobile 0.3s ease-out forwards;
+  }
+  
+  .animate-slideOutRight {
+    animation: modalFadeOutMobile 0.3s ease-out forwards;
+  }
+  
+  @keyframes modalFadeInMobile {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes modalFadeOutMobile {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+  
+  /* Mobile close button positioning */
+  .review-modal-container .modal-close-btn {
+    top: 12px !important;
+    right: 12px !important;
+  }
+}
+
+/* Mobile: Full screen bottom sheet for review modal */
+@media (max-width: 767px) {
+  .review-modal-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    margin: 0;
+  }
+  
+  .review-modal-scroll {
+    max-height: 95vh;
+  }
+}
+
+/* ============================================
+   REVIEW MODAL - Additional Styles
+   ============================================ */
+
+/* Line clamp for product name */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Comment textarea auto-expand */
+.comment-textarea {
+  line-height: 1.4;
+  transition: height 0.15s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+/* Placeholder color for dark mode - applies to all textareas in modal */
+.modal-container textarea::placeholder,
+.review-modal-container textarea::placeholder,
+.comment-textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Comment input row - align items */
+.comment-input-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.comment-input-row textarea {
+  min-height: 44px;
+  padding: 10px 14px;
+}
+
+.comment-input-row button {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+/* Send button hover effect */
+.review-modal-container button[aria-label="Gửi đánh giá"]:not(:disabled):hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.review-modal-container button[aria-label="Gửi đánh giá"]:not(:disabled):active {
+  transform: scale(0.95);
 }

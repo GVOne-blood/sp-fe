@@ -455,6 +455,10 @@ describe('ProductDetailModalComponent', () => {
           ), // customization options
           fc.integer({ min: 1, max: 20 }), // quantity
           (basePrice, customizations, quantity) => {
+            // Create a fresh component instance for each test run to avoid state pollution
+            const localFixture = TestBed.createComponent(ProductDetailModalComponent);
+            const localComponent = localFixture.componentInstance;
+
             // Ensure unique groupIds by using index
             const uniqueCustomizations = customizations.map((custom, index) => ({
               ...custom,
@@ -482,28 +486,31 @@ describe('ProductDetailModalComponent', () => {
               customizationGroups: customizationGroups.length > 0 ? customizationGroups : undefined
             };
 
-            component.product = testProduct;
-            fixture.detectChanges();
+            localComponent.product = testProduct;
+            localFixture.detectChanges();
 
             // Set quantity
-            component.quantity.set(quantity);
+            localComponent.quantity.set(quantity);
 
             // Select all customization options
             const selectedOptions = new Map<string, string>();
             uniqueCustomizations.forEach(custom => {
               selectedOptions.set(custom.groupId, custom.optionId);
             });
-            component.selectedOptions.set(selectedOptions);
+            localComponent.selectedOptions.set(selectedOptions);
 
             // Calculate expected total
             const optionsTotal = uniqueCustomizations.reduce((sum, custom) => sum + custom.priceModifier, 0);
             const expectedTotal = (basePrice + optionsTotal) * quantity;
 
             // Get actual total from component
-            const actualTotal = component.totalPrice();
+            const actualTotal = localComponent.totalPrice();
 
             // Verify the calculation
             expect(actualTotal).toBe(expectedTotal);
+
+            // Clean up
+            localFixture.destroy();
           }
         ),
         { numRuns: 100 }

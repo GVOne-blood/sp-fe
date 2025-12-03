@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gray-50 pb-10 font-sans">
+<div class="min-h-screen pb-10 font-sans" style="background-color: var(--bg-subtle);">
 
   <!-- Store Banner Image -->
-  <div class="w-full h-[200px] md:h-[250px] overflow-hidden bg-gray-200">
+  <div class="w-full h-[200px] md:h-[250px] overflow-hidden" style="background-color: var(--bg-hover);">
     <img 
       [src]="storeInfo.bannerImage" 
       [alt]="storeInfo.name + ' banner'"
@@ -11,23 +11,24 @@
   </div>
 
   <!-- Store Header (Full Width Background) -->
-  <div class="bg-white border-b border-gray-200">
+  <div class="border-b" style="background-color: var(--bg-card); border-color: var(--border-default);">
     <div class="container mx-auto px-4 py-6">
       <!-- Store Name & Favorite -->
       <div class="flex justify-between items-start mb-2">
-        <h1 class="text-3xl font-bold text-gray-900">{{ storeInfo.name }}</h1>
+        <h1 class="text-3xl font-bold" style="color: var(--text-primary);">{{ storeInfo.name }}</h1>
         <button 
           (click)="toggleStoreFavorite()"
-          class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 hover:bg-gray-50 font-medium transition-all duration-300 ease-out hover:scale-105 active:scale-95"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-all duration-300 ease-out hover:scale-105 active:scale-95 store-favorite-btn"
           [class.text-red-500]="isStoreFavorite()"
           [class.border-red-200]="isStoreFavorite()"
-          [class.text-gray-700]="!isStoreFavorite()">
+          [class.unfavorited]="!isStoreFavorite()"
+          style="border-color: var(--border-default);">
           <!-- Filled heart when favorited -->
-          <svg *ngIf="isStoreFavorite()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 favorite-icon" viewBox="0 0 24 24" fill="currentColor">
+          <svg *ngIf="isStoreFavorite()" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 favorite-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
           </svg>
           <!-- Outline heart when not favorited -->
-          <svg *ngIf="!isStoreFavorite()" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 favorite-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg *ngIf="!isStoreFavorite()" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 favorite-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
           Yêu thích
@@ -35,28 +36,28 @@
       </div>
 
       <!-- Address -->
-      <div class="text-gray-700 mb-3">{{ storeInfo.address }}</div>
+      <div class="mb-3" style="color: var(--text-secondary);">{{ storeInfo.address }}</div>
 
       <!-- Meta Info -->
-      <div class="flex items-center gap-6 text-sm text-gray-600 mb-4">
+      <div class="flex items-center gap-6 text-sm mb-4" style="color: var(--text-secondary);">
         <div class="flex items-center gap-1">
-            <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+            <svg class="w-4 h-4" style="color: var(--text-muted);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
             {{ storeInfo.distance }}
         </div>
         <div class="flex items-center gap-1">
             <app-star-rating [rating]="storeInfo.rating" [size]="'md'" [showNumber]="true"></app-star-rating>
             <span class="text-blue-500">({{ storeInfo.reviewCount }} Đánh giá)</span>
         </div>
-        <a href="#" class="text-gray-500 underline">Thông tin quán</a>
+        <a href="#" class="underline" style="color: var(--text-muted);">Thông tin quán</a>
       </div>
 
       <!-- Action Buttons -->
       <div class="flex gap-3 mb-6">
-        <button class="px-4 py-2 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 transition-all duration-200 ease-out hover:scale-105 active:scale-95">
+        <button class="px-4 py-2 rounded-full border text-sm font-medium flex items-center gap-2 transition-all duration-200 ease-out hover:scale-105 active:scale-95 action-btn" style="border-color: var(--border-default); color: var(--text-secondary);">
           Nhà hàng tương tự
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </button>
-        <button class="px-4 py-2 rounded-full border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 flex items-center gap-2 transition-all duration-200 ease-out hover:scale-105 active:scale-95">
+        <button class="px-4 py-2 rounded-full border text-sm font-medium flex items-center gap-2 transition-all duration-200 ease-out hover:scale-105 active:scale-95 action-btn" style="border-color: var(--border-default); color: var(--text-secondary);">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             Đặt theo nhóm
         </button>
@@ -67,11 +68,11 @@
         <!-- Search -->
         <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="h-5 w-5" style="color: var(--text-muted);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
-            <input type="text" class="block w-full pl-10 pr-3 py-3 border border-gray-100 rounded-md leading-5 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Tìm kiếm trong nhà hàng">
+            <input type="text" class="block w-full pl-10 pr-3 py-3 border rounded-md leading-5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm search-input" placeholder="Tìm kiếm trong nhà hàng" style="background-color: var(--bg-subtle); border-color: var(--border-subtle); color: var(--text-primary);">
         </div>
 
         <!-- Category Tags -->
@@ -79,21 +80,17 @@
             <div *ngFor="let cat of categories(); trackBy: trackByCategory"
                  (click)="scrollToCategory(cat.id)"
                  class="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold uppercase cursor-pointer transition-all duration-300 select-none flex items-center gap-2 category-tag"
-                 [class.bg-slate-800]="isCategoryActive(cat.id)"
-                 [class.text-white]="isCategoryActive(cat.id)"
-                 [class.bg-gray-100]="!isCategoryActive(cat.id)"
-                 [class.text-gray-600]="!isCategoryActive(cat.id)"
+                 [class.category-active]="isCategoryActive(cat.id)"
+                 [class.category-inactive]="!isCategoryActive(cat.id)"
                  [class.scale-105]="isCategoryActive(cat.id)">
                 {{ cat.name }}
                 <span class="px-1.5 py-0.5 rounded-full text-[10px]"
-                      [class.bg-white]="isCategoryActive(cat.id)"
-                      [class.text-slate-800]="isCategoryActive(cat.id)"
-                      [class.bg-blue-100]="!isCategoryActive(cat.id)"
-                      [class.text-blue-600]="!isCategoryActive(cat.id)">
+                      [class.category-count-active]="isCategoryActive(cat.id)"
+                      [class.category-count-inactive]="!isCategoryActive(cat.id)">
                     {{ cat.count }}
                 </span>
             </div>
-             <button class="px-3 py-1.5 bg-gray-100 rounded-md text-gray-600 hover:bg-gray-200">
+             <button class="px-3 py-1.5 rounded-md category-scroll-btn">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
         </div>
@@ -107,14 +104,14 @@
     <!-- Product List (Categorized) -->
     <div class="flex-1 space-y-8">
       <div *ngFor="let group of groupedProducts(); trackBy: trackByGroup" [id]="'category-' + group.id">
-        <h2 class="text-lg font-bold text-gray-800 mb-4 uppercase">{{ group.name }}</h2>
+        <h2 class="text-lg font-bold mb-4 uppercase" style="color: var(--text-primary);">{{ group.name }}</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div *ngFor="let product of group.products; trackBy: trackByProduct"
-               class="bg-white rounded-lg shadow-sm border border-gray-100 p-3 flex gap-4 relative group product-card hover:shadow-md">
+               class="rounded-lg p-3 flex gap-4 relative group product-card" style="background-color: var(--bg-card); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);">
 
             <!-- Product Image -->
-            <div class="relative w-28 h-28 flex-shrink-0 cursor-pointer bg-gray-200 rounded-md" (click)="openProductModal(product)">
+            <div class="relative w-28 h-28 flex-shrink-0 cursor-pointer rounded-md" style="background-color: var(--bg-hover);" (click)="openProductModal(product)">
               <img [src]="product.image" [alt]="product.name" class="w-full h-full object-cover rounded-md" loading="lazy" (error)="onProductImageError($event)">
               <div *ngIf="product.isSoldOut" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-md">
                 <span class="text-white font-bold text-xs px-2 py-1 border border-white rounded">HẾT MÓN</span>
@@ -124,9 +121,9 @@
             <!-- Product Info -->
             <div class="flex-1 flex flex-col justify-between">
               <div>
-                <h3 class="font-semibold text-gray-800 text-base mb-1 cursor-pointer hover:text-blue-600" (click)="openProductModal(product)">{{ product.name }}</h3>
-                <div class="text-xs text-gray-500 line-clamp-2 mb-1" *ngIf="product.description">{{ product.description }}</div>
-                <div class="flex items-center gap-2 text-xs text-gray-500">
+                <h3 class="font-semibold text-base mb-1 cursor-pointer hover:text-blue-600" style="color: var(--text-primary);" (click)="openProductModal(product)">{{ product.name }}</h3>
+                <div class="text-xs line-clamp-2 mb-1" style="color: var(--text-muted);" *ngIf="product.description">{{ product.description }}</div>
+                <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
                     <span>Đã bán {{ product.sold }}+</span>
                     <span *ngIf="product.rating">
                         <app-star-rating [rating]="product.rating" [size]="'sm'" [showNumber]="true"></app-star-rating>
@@ -136,8 +133,8 @@
 
               <div class="flex items-center justify-between mt-2">
                  <div class="flex items-end gap-2">
-                    <div class="text-gray-900 font-bold text-base">{{ product.price | number }}đ</div>
-                    <div *ngIf="product.originalPrice && product.originalPrice > product.price" class="text-xs text-gray-400 line-through mb-0.5">{{ product.originalPrice | number }}đ</div>
+                    <div class="font-bold text-base" style="color: var(--text-primary);">{{ product.price | number }}đ</div>
+                    <div *ngIf="product.originalPrice && product.originalPrice > product.price" class="text-xs line-through mb-0.5" style="color: var(--text-disabled);">{{ product.originalPrice | number }}đ</div>
                  </div>
 
                  <div class="flex items-center gap-2">
@@ -146,7 +143,7 @@
                       (click)="toggleProductFavorite(product.id); $event.stopPropagation()" 
                       class="p-1.5 transition-all duration-300 ease-out hover:scale-110 active:scale-125 favorite-icon"
                       [class.text-red-500]="isProductFavorite(product.id)"
-                      [class.text-gray-400]="!isProductFavorite(product.id)">
+                      [style.color]="!isProductFavorite(product.id) ? 'var(--text-muted)' : null">
                         <!-- Filled heart when favorited -->
                         <svg *ngIf="isProductFavorite(product.id)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
@@ -186,10 +183,10 @@
 
     <!-- Cart Sidebar (Sticky) -->
     <div class="w-full lg:w-96 flex-shrink-0">
-      <div class="bg-white rounded-lg shadow-sm border border-gray-100 sticky top-4 overflow-hidden">
+      <div class="rounded-lg sticky top-4 overflow-hidden cart-sidebar" style="background-color: var(--bg-card); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-base);">
 
         <!-- Cart Items List -->
-        <div class="p-4 bg-white" *ngIf="cart().length > 0">
+        <div class="p-4" style="background-color: var(--bg-card);" *ngIf="cart().length > 0">
            <div class="flex justify-between items-center mb-4">
                <div class="flex items-center gap-3">
                  <!-- Select All Checkbox (only in edit mode) -->
@@ -199,17 +196,18 @@
                    [checked]="areAllItemsSelected()"
                    (change)="toggleSelectAll()"
                    (keydown.space)="$event.preventDefault(); toggleSelectAll()"
-                   class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer"
+                   class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer cart-checkbox"
                    aria-label="Chọn tất cả sản phẩm trong giỏ hàng"
                  />
-                 <span class="font-medium text-gray-700">Giỏ hàng của bạn</span>
+                 <span class="font-medium" style="color: var(--text-secondary);">Giỏ hàng của bạn</span>
                </div>
                <div class="flex items-center gap-2">
-                 <span class="text-xs text-gray-500">{{ cartCount() }} món</span>
+                 <span class="text-xs" style="color: var(--text-muted);">{{ cartCount() }} món</span>
                  <!-- Edit/Cancel Button -->
                  <button 
                    (click)="toggleCartEditMode()"
-                   class="text-gray-400 hover:text-blue-500 transition-colors"
+                   class="hover:text-blue-500 transition-colors"
+                   style="color: var(--text-muted);"
                    [title]="isCartEditMode() ? 'Hủy' : 'Chỉnh sửa'"
                    [attr.aria-label]="isCartEditMode() ? 'Hủy chế độ chỉnh sửa' : 'Bật chế độ chỉnh sửa giỏ hàng'"
                    type="button"
@@ -226,7 +224,8 @@
 
            <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
              <div *ngFor="let item of cart(); let i = index; trackBy: trackByCartItem" 
-                  class="flex gap-3 py-2 border-b border-gray-50 last:border-0 cart-item"
+                  class="flex gap-3 py-2 last:border-0 cart-item"
+                  style="border-bottom: 1px solid var(--border-subtle);"
                   [class.cursor-pointer]="!isCartEditMode()"
                   (click)="!isCartEditMode() && editCartItem(item, i)">
                <!-- Checkbox (only in edit mode) -->
@@ -236,20 +235,21 @@
                  [checked]="selectedCartItems().has(i)"
                  (click)="$event.stopPropagation(); toggleCartItemSelection(i)"
                  (keydown.space)="$event.preventDefault(); $event.stopPropagation(); toggleCartItemSelection(i)"
-                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer mt-1 flex-shrink-0"
+                 class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer mt-1 flex-shrink-0 cart-checkbox"
                  [attr.aria-label]="'Chọn ' + item.product.name"
                />
                
                <!-- Thumbnail -->
-               <img [src]="item.product.image" class="w-12 h-12 rounded object-cover flex-shrink-0 bg-gray-200" alt="" loading="lazy" (error)="onProductImageError($event)">
+               <img [src]="item.product.image" class="w-12 h-12 rounded object-cover flex-shrink-0" style="background-color: var(--bg-hover);" alt="" loading="lazy" (error)="onProductImageError($event)">
 
                <!-- Info -->
                <div class="flex-1">
                  <div class="flex justify-between items-start">
-                    <h4 class="text-sm font-semibold text-gray-800 uppercase">{{ item.product.name }}</h4>
+                    <h4 class="text-sm font-semibold uppercase" style="color: var(--text-primary);">{{ item.product.name }}</h4>
                     <button *ngIf="!isCartEditMode()" 
                             (click)="editCartItem(item, i); $event.stopPropagation()"
-                            class="text-gray-400 hover:text-blue-500"
+                            class="hover:text-blue-500"
+                            style="color: var(--text-muted);"
                             [attr.aria-label]="'Chỉnh sửa ' + item.product.name"
                             type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -261,16 +261,18 @@
                  <div *ngIf="item.note" class="text-xs mb-2" style="color: var(--text-secondary)">Ghi chú: {{ item.note }}</div>
 
                  <div class="flex justify-between items-center">
-                   <div class="text-sm font-medium">{{ calculateItemTotal(item) | number }}đ</div>
+                   <div class="text-sm font-medium" style="color: var(--text-primary);">{{ calculateItemTotal(item) | number }}đ</div>
 
-                   <div class="flex items-center bg-gray-100 rounded-lg" role="group" [attr.aria-label]="'Số lượng ' + item.product.name">
+                   <div class="flex items-center rounded-lg cart-quantity-control" role="group" [attr.aria-label]="'Số lượng ' + item.product.name">
                      <button (click)="removeFromCart(item.product.id); $event.stopPropagation()" 
-                             class="px-2 py-0.5 text-gray-600 font-bold hover:text-red-500 transition-all duration-200 ease-out hover:scale-110 active:scale-95"
+                             class="px-2 py-0.5 font-bold hover:text-red-500 transition-all duration-200 ease-out hover:scale-110 active:scale-95"
+                             style="color: var(--text-secondary);"
                              [attr.aria-label]="'Giảm số lượng ' + item.product.name"
                              type="button">-</button>
-                     <span class="px-2 text-sm font-bold w-6 text-center" aria-live="polite">{{ item.quantity }}</span>
+                     <span class="px-2 text-sm font-bold w-6 text-center" style="color: var(--text-primary);" aria-live="polite">{{ item.quantity }}</span>
                      <button (click)="incrementCartItem(item); $event.stopPropagation()" 
-                             class="px-2 py-0.5 text-gray-600 font-bold hover:text-green-500 transition-all duration-200 ease-out hover:scale-110 active:scale-95"
+                             class="px-2 py-0.5 font-bold hover:text-green-500 transition-all duration-200 ease-out hover:scale-110 active:scale-95"
+                             style="color: var(--text-secondary);"
                              [attr.aria-label]="'Tăng số lượng ' + item.product.name"
                              type="button">+</button>
                    </div>
@@ -281,7 +283,7 @@
         </div>
 
         <!-- Empty Cart -->
-         <div *ngIf="cart().length === 0" class="p-8 text-center text-gray-400">
+         <div *ngIf="cart().length === 0" class="p-8 text-center" style="color: var(--text-muted);">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-2 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
@@ -289,7 +291,7 @@
         </div>
 
         <!-- Checkout Section -->
-        <div class="p-4 border-t border-gray-100 bg-white">
+        <div class="p-4" style="border-top: 1px solid var(--border-subtle); background-color: var(--bg-card);">
           <!-- Delete Button (only in edit mode) -->
           <button 
             *ngIf="isCartEditMode()"
@@ -311,8 +313,8 @@
           <!-- Normal Checkout (only when not in edit mode) -->
           <div *ngIf="!isCartEditMode()">
             <div class="flex justify-between items-center mb-4">
-              <span class="text-base text-gray-700">Tổng số tiền</span>
-              <span class="text-xl font-bold text-gray-900" aria-live="polite" aria-atomic="true">{{ cartTotal() | number }}đ</span>
+              <span class="text-base" style="color: var(--text-secondary);">Tổng số tiền</span>
+              <span class="text-xl font-bold" style="color: var(--text-primary);" aria-live="polite" aria-atomic="true">{{ cartTotal() | number }}đ</span>
             </div>
 
             <button class="w-full py-3 bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold rounded-lg transition-all duration-300 ease-out shadow-sm mb-2 hover:shadow-md hover:scale-105 active:scale-98"
@@ -321,7 +323,7 @@
               Đăng nhập để đặt đơn
             </button>
 
-            <div class="text-center text-xs text-gray-500">
+            <div class="text-center text-xs" style="color: var(--text-muted);">
               Xem phí áp dụng và dùng mã khuyến mại ở bước tiếp theo
             </div>
           </div>
@@ -330,6 +332,9 @@
     </div>
   </div>
 </div>
+
+<!-- Footer -->
+<app-footer></app-footer>
 
 <!-- Product Detail Modal -->
 <app-product-detail-modal

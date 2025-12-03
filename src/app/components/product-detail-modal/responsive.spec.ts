@@ -87,7 +87,11 @@ describe('ProductDetailModalComponent - Responsive Design', () => {
     });
 
     it('should display add to cart button on mobile', () => {
-      const addToCartButton = fixture.nativeElement.querySelector('button.bg-orange-500');
+      // Find the add to cart button by its text content
+      const buttons = fixture.nativeElement.querySelectorAll('button');
+      const addToCartButton = Array.from(buttons).find((btn: any) => 
+        btn.textContent?.includes('Thêm vào giỏ')
+      ) as HTMLElement;
       expect(addToCartButton).toBeTruthy();
       expect(addToCartButton.textContent).toContain('Thêm vào giỏ');
     });
@@ -188,13 +192,15 @@ describe('ProductDetailModalComponent - Responsive Design', () => {
 
   describe('Close Button', () => {
     it('should display close button', () => {
-      const closeButton = fixture.nativeElement.querySelector('button[class*="absolute"]');
+      // Close button uses modal-close-btn class
+      const closeButton = fixture.nativeElement.querySelector('button.modal-close-btn');
       expect(closeButton).toBeTruthy();
     });
 
     it('should close modal when close button is clicked', (done) => {
       spyOn(component.close, 'emit');
-      const closeButton = fixture.nativeElement.querySelector('button[class*="absolute"]');
+      // Close button uses modal-close-btn class
+      const closeButton = fixture.nativeElement.querySelector('button.modal-close-btn');
       closeButton.click();
       
       // Wait for animation

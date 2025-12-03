@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal, ElementRef, viewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 
 interface Language {
   code: string;
@@ -20,7 +21,7 @@ interface NavItem {
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, ThemeToggleComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

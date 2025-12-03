@@ -133,3 +133,110 @@ input:focus,
 textarea:focus {
   transition: all 0.2s ease-out;
 }
+
+
+/* ============================================
+   DARK MODE SUPPORT - Theme-aware styles
+   ============================================ */
+
+/* Store favorite button - unfavorited state */
+.store-favorite-btn.unfavorited {
+  color: var(--text-secondary);
+}
+
+.store-favorite-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Action buttons hover state */
+.action-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+/* Search input placeholder */
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-input:focus {
+  background-color: var(--bg-card);
+}
+
+/* Category tags - active state */
+.category-active {
+  background-color: #1e293b;
+  color: #ffffff;
+}
+
+:root.dark .category-active {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Category tags - inactive state */
+.category-inactive {
+  background-color: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+.category-inactive:hover {
+  background-color: var(--bg-active);
+}
+
+/* Category count badge - active */
+.category-count-active {
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+:root.dark .category-count-active {
+  background-color: #1e293b;
+  color: #ffffff;
+}
+
+/* Category count badge - inactive */
+.category-count-inactive {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+}
+
+/* Category scroll button */
+.category-scroll-btn {
+  background-color: var(--bg-hover);
+  color: var(--text-secondary);
+}
+
+.category-scroll-btn:hover {
+  background-color: var(--bg-active);
+}
+
+/* Product card hover effect */
+.product-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Cart sidebar */
+.cart-sidebar {
+  transition: var(--theme-transition);
+}
+
+/* Cart quantity control */
+.cart-quantity-control {
+  background-color: var(--bg-hover);
+}
+
+/* Cart checkbox */
+.cart-checkbox {
+  border-color: var(--border-default);
+}
+
+/* Theme transition for all elements */
+.store-favorite-btn,
+.action-btn,
+.search-input,
+.category-tag,
+.product-card,
+.cart-sidebar,
+.cart-quantity-control {
+  transition: var(--theme-transition);
+}

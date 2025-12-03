@@ -21,13 +21,14 @@
      ============================================ */
   
   /** Main brand color - used for primary actions, highlights */
-  --color-primary: #ff6b35;
+  /* Adjusted from #ff6b35 to #e85d2a for WCAG AA compliance (3.0:1 min for large text) */
+  --color-primary: #e85d2a;
   
   /** Hover state for primary color - slightly darker */
-  --color-primary-hover: #ff5722;
+  --color-primary-hover: #d54d1a;
   
   /** Active/pressed state for primary color */
-  --color-primary-active: #e64a19;
+  --color-primary-active: #c44012;
   
   /** Light tint of primary - for backgrounds, subtle highlights */
   --color-primary-light: #ffebe6;
@@ -64,8 +65,9 @@
      ============================================ */
   
   /** Success color - for positive feedback, confirmations */
-  --color-success: #10b981;
-  --color-success-hover: #059669;
+  /* Adjusted from #10b981 to #059669 for WCAG AA compliance (3.0:1 min for large text) */
+  --color-success: #059669;
+  --color-success-hover: #047857;
   --color-success-light: #d1fae5;
   
   /** Error color - for errors, warnings, destructive actions */
@@ -79,8 +81,9 @@
   --color-warning-light: #fef3c7;
   
   /** Info color - for informational messages */
-  --color-info: #3b82f6;
-  --color-info-hover: #2563eb;
+  /* Adjusted from #3b82f6 to #2563eb for WCAG AA compliance (4.5:1 min for normal text) */
+  --color-info: #2563eb;
+  --color-info-hover: #1d4ed8;
   --color-info-light: #dbeafe;
 
 
@@ -165,6 +168,23 @@
   
   /** Focus border color */
   --border-focus: var(--color-primary);
+
+
+  /* ============================================
+     SHADOW COLORS - For theme-aware shadows
+     ============================================ */
+  
+  /** Shadow color - adjusts based on theme */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-strong: rgba(0, 0, 0, 0.25);
+
+
+  /* ============================================
+     THEME TRANSITION - For smooth theme switching
+     ============================================ */
+  
+  /** Theme transition duration and properties */
+  --theme-transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 
 
   /* ============================================
@@ -343,6 +363,260 @@
 
 
 /* ============================================
+   DARK MODE - Color Overrides
+   ============================================ */
+
+/**
+ * Dark mode color scheme
+ * Applied when .dark class is present on :root (html element)
+ * All semantic colors are adjusted for better visibility on dark backgrounds
+ */
+:root.dark {
+  /* ============================================
+     PRIMARY COLORS - Adjusted for dark backgrounds
+     ============================================ */
+  
+  /** Main brand color - slightly lighter for dark bg */
+  --color-primary: #ff7f50;
+  
+  /** Hover state for primary color */
+  --color-primary-hover: #ff9a6c;
+  
+  /** Active/pressed state for primary color */
+  --color-primary-active: #ff6b35;
+  
+  /** Light tint of primary - darker for dark mode */
+  --color-primary-light: #3d2a22;
+  
+  /** Extra light tint - darker for dark mode */
+  --color-primary-lighter: #2d1f1a;
+  
+  /** Dark shade of primary - lighter for dark mode */
+  --color-primary-dark: #ffb08a;
+
+
+  /* ============================================
+     SECONDARY COLORS - Adjusted for dark backgrounds
+     ============================================ */
+  
+  /** Secondary brand color */
+  --color-secondary: #a1a1aa;
+  
+  /** Hover state for secondary color */
+  --color-secondary-hover: #d4d4d8;
+  
+  /** Active/pressed state for secondary color */
+  --color-secondary-active: #e4e4e7;
+  
+  /** Light tint of secondary - darker for dark mode */
+  --color-secondary-light: #3f3f46;
+  
+  /** Extra light tint of secondary - darker for dark mode */
+  --color-secondary-lighter: #27272a;
+
+
+  /* ============================================
+     SEMANTIC COLORS - Adjusted for dark backgrounds
+     ============================================ */
+  
+  /** Success color - lighter green for dark bg */
+  --color-success: #34d399;
+  --color-success-hover: #4ade80;
+  --color-success-light: #064e3b;
+  
+  /** Error color - lighter red for dark bg */
+  --color-error: #f87171;
+  --color-error-hover: #fca5a5;
+  --color-error-light: #7f1d1d;
+  
+  /** Warning color - lighter amber for dark bg */
+  --color-warning: #fbbf24;
+  --color-warning-hover: #fcd34d;
+  --color-warning-light: #78350f;
+  
+  /** Info color - lighter blue for dark bg */
+  --color-info: #60a5fa;
+  --color-info-hover: #93c5fd;
+  --color-info-light: #1e3a5f;
+
+
+  /* ============================================
+     NEUTRAL GRAYS - Inverted for dark mode
+     ============================================ */
+  
+  /** Pure white - becomes dark for backgrounds */
+  --color-white: #0f0f0f;
+  
+  /** Pure black - becomes light for text */
+  --color-black: #f9fafb;
+  
+  /** Gray scale inverted for dark mode */
+  --color-gray-50: #18181b;
+  --color-gray-100: #1f1f23;
+  --color-gray-200: #27272a;
+  --color-gray-300: #3f3f46;
+  --color-gray-400: #52525b;
+  --color-gray-500: #71717a;
+  --color-gray-600: #a1a1aa;
+  --color-gray-700: #d4d4d8;
+  --color-gray-800: #e4e4e7;
+  --color-gray-900: #f9fafb;
+
+
+  /* ============================================
+     TEXT COLORS - Adjusted for dark backgrounds
+     ============================================ */
+  
+  /** Primary text color - off-white for dark bg */
+  --text-primary: #f9fafb;
+  
+  /** Secondary text color */
+  --text-secondary: #a1a1aa;
+  
+  /** Muted text color */
+  /* Adjusted from #71717a to #8b8b94 for WCAG AA compliance (4.5:1 min for normal text) */
+  --text-muted: #8b8b94;
+  
+  /** Disabled text color */
+  --text-disabled: #52525b;
+  
+  /** Text on primary color backgrounds */
+  --text-on-primary: #ffffff;
+  
+  /** Text on dark backgrounds - now light text */
+  --text-on-dark: #f9fafb;
+
+
+  /* ============================================
+     BACKGROUND COLORS - Dark theme values
+     ============================================ */
+  
+  /** Main page background - near black */
+  --bg-page: #0f0f0f;
+  
+  /** Card/container background */
+  --bg-card: #1a1a1a;
+  
+  /** Subtle background for sections */
+  --bg-subtle: #242424;
+  
+  /** Hover background for interactive elements */
+  --bg-hover: #2d2d2d;
+  
+  /** Active/pressed background */
+  --bg-active: #3f3f46;
+
+
+  /* ============================================
+     BORDER COLORS - Adjusted for dark backgrounds
+     ============================================ */
+  
+  /** Default border color */
+  --border-default: #27272a;
+  
+  /** Subtle border color */
+  --border-subtle: #1f1f23;
+  
+  /** Strong border color - for emphasis */
+  --border-strong: #3f3f46;
+  
+  /** Focus border color */
+  --border-focus: var(--color-primary);
+
+
+  /* ============================================
+     SHADOW COLORS - Darker for dark mode
+     ============================================ */
+  
+  /** Shadow color - stronger for dark mode */
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color-strong: rgba(0, 0, 0, 0.5);
+
+
+  /* ============================================
+     SHADOWS - Adjusted for dark mode
+     ============================================ */
+  
+  /** Subtle shadow */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  
+  /** Default shadow */
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  
+  /** Medium shadow */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  
+  /** Large shadow */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  
+  /** Extra large shadow */
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  
+  /** 2x extra large shadow */
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+
+  /* ============================================
+     COMPONENT-SPECIFIC TOKENS - Dark mode
+     ============================================ */
+  
+  /** Divider color - darker for dark mode */
+  --divider-color: #27272a;
+}
+
+
+/* ============================================
+   THEME TRANSITION CLASSES
+   ============================================ */
+
+/**
+ * Apply smooth transitions for theme switching
+ * Add this class to elements that should animate during theme change
+ */
+.theme-transition {
+  transition: var(--theme-transition);
+}
+
+/**
+ * Apply theme transition to common elements
+ * These elements will smoothly animate when theme changes
+ */
+body,
+.card,
+.card-hover,
+.btn-primary,
+.btn-secondary,
+.btn-outline,
+.btn-ghost,
+.badge,
+.badge-success,
+.badge-error,
+.badge-warning,
+.divider,
+.divider-thin,
+.modal-container,
+.modal-close-btn,
+.quantity-btn,
+.option-checkbox {
+  transition: var(--theme-transition);
+}
+
+/**
+ * Disable transitions for users who prefer reduced motion
+ * Respects system accessibility settings
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+
+/* ============================================
    UTILITY CLASSES - Button Styles
    ============================================ */
 
@@ -479,11 +753,11 @@
    ============================================ */
 
 /**
- * Primary text color
+ * Primary text color (uses !important to override Tailwind's text-primary)
  * Usage: <p class="text-primary">Important text</p>
  */
 .text-primary {
-  color: var(--color-primary);
+  color: var(--color-primary) !important;
 }
 
 /**
@@ -661,4 +935,276 @@
 
 .slide-up {
   animation: slideUp var(--transition-base);
+}
+
+
+/* ============================================
+   UTILITY CLASSES - Modal Animations
+   ============================================ */
+
+/* Fade animations for overlay */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Slide animations for modal content */
+@keyframes modalSlideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalSlideDown {
+  from { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.animate-fadeIn {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+.animate-fadeOut {
+  animation: modalFadeOut 0.2s ease-out;
+}
+
+.animate-slideUp {
+  animation: modalSlideUp 0.3s ease-out;
+}
+
+.animate-slideDown {
+  animation: modalSlideDown 0.2s ease-out;
+}
+
+/* ============================================
+   UTILITY CLASSES - Modal Container
+   ============================================ */
+
+/**
+ * Unified modal container - consistent sizing across all modals
+ * Desktop: centered dialog with max-width and max-height
+ * Mobile: full-screen bottom sheet
+ * Usage: <div class="modal-container">...</div>
+ */
+.modal-container {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 36rem; /* 576px - larger width */
+  margin: 0 1rem;
+  max-height: 92vh; /* larger height */
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-2xl);
+  overflow: visible; /* Allow close button to overflow */
+  transition: var(--theme-transition);
+}
+
+/* Mobile: full-screen bottom sheet */
+@media (max-width: 767px) {
+  .modal-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    max-width: 100%;
+    max-height: 95vh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+  
+  /* Mobile: close button inside modal */
+  .modal-container .modal-close-btn {
+    top: 12px !important;
+    right: 12px !important;
+  }
+}
+
+/* Modal scroll content wrapper */
+.modal-scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-scroll-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   UTILITY CLASSES - Modal Close Button
+   ============================================ */
+
+/**
+ * Unified modal close button - circular white button with shadow
+ * Positioned top-right overlapping the modal corner
+ * Usage: <button class="modal-close-btn">X</button>
+ */
+.modal-close-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform var(--transition-base), var(--theme-transition);
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  transform: scale(1.05);
+}
+
+.modal-close-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-close-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+  stroke-width: 2.5;
+}
+
+
+/* ============================================
+   UTILITY CLASSES - Quantity Controls
+   ============================================ */
+
+/**
+ * Quantity button base - smaller size (32px)
+ * Clean, minimal design with subtle borders
+ * Usage: <button class="quantity-btn quantity-btn-decrease">-</button>
+ */
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  /* Clean minimal style - light background with border */
+  background-color: var(--color-gray-100);
+  border: 1.5px solid var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+
+.quantity-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: var(--color-gray-50);
+  border-color: var(--color-gray-200);
+}
+
+.quantity-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
+}
+
+/**
+ * Decrease button - Subtle style, primary accent on hover
+ */
+.quantity-btn-decrease {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+
+.quantity-btn-decrease:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.quantity-btn-decrease:active:not(:disabled) {
+  transform: scale(0.95);
+  background-color: var(--color-primary-lighter);
+}
+
+/**
+ * Increase button - Subtle style, primary accent on hover
+ */
+.quantity-btn-increase {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+
+.quantity-btn-increase:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.quantity-btn-increase:active:not(:disabled) {
+  transform: scale(0.95);
+  background-color: var(--color-primary-lighter);
+}
+
+
+/* ============================================
+   UTILITY CLASSES - Option Checkbox (Rounded Square)
+   ============================================ */
+
+/**
+ * Option checkbox - rounded square style (replaces circular radio buttons)
+ * Usage: <div class="option-checkbox" [class.checked]="isSelected">...</div>
+ */
+.option-checkbox {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 1.5px solid var(--border-default);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.option-checkbox:hover {
+  border-color: var(--color-primary);
+}
+
+.option-checkbox.checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.option-checkbox .check-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-on-primary);
 }

@@ -64,6 +64,48 @@ export class ProductDetailModalComponent implements OnChanges, OnDestroy, AfterV
   isEditMode = signal<boolean>(false);
   editingCartItemIndex = signal<number | null>(null);
   
+  // Product review modal state
+  showReviewModal = signal<boolean>(false);
+  isReviewModalClosing = signal<boolean>(false);
+  newComment = signal<string>('');
+  newCommentValue = ''; // Two-way binding property for immediate UI updates
+  newRating = signal<number>(5);
+  
+  // Mock reviews data (in real app, this would come from API)
+  productReviews = signal<Array<{
+    id: number;
+    userName: string;
+    userAvatar: string;
+    rating: number;
+    comment: string;
+    date: string;
+  }>>([
+    {
+      id: 1,
+      userName: 'Doãn Ngọc Bảo Khuê',
+      userAvatar: 'assets/avatars/user1.png',
+      rating: 4,
+      comment: 'ngon mà bị đổ nh nc ra quá, Khá ngon, Đóng gói chưa tốt',
+      date: '12:45 23/09/2025'
+    },
+    {
+      id: 2,
+      userName: 'Nguyễn Văn An',
+      userAvatar: 'assets/avatars/user2.png',
+      rating: 5,
+      comment: 'Món ăn rất ngon, giao hàng nhanh, đóng gói cẩn thận. Sẽ ủng hộ tiếp!',
+      date: '09:30 22/09/2025'
+    },
+    {
+      id: 3,
+      userName: 'Trần Thị Mai',
+      userAvatar: 'assets/avatars/user3.png',
+      rating: 4,
+      comment: 'Chất lượng tốt, giá cả hợp lý. Chỉ hơi chờ lâu một chút.',
+      date: '18:15 21/09/2025'
+    }
+  ]);
+  
   private readonly FALLBACK_PRODUCT_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="20" fill="%239ca3af"%3ENo Image%3C/text%3E%3C/svg%3E';
   private addToCartTimeout?: ReturnType<typeof setTimeout>;
   private previouslyFocusedElement?: HTMLElement;
@@ -166,6 +208,11 @@ export class ProductDetailModalComponent implements OnChanges, OnDestroy, AfterV
   }
 
   closeModal() {
+    // Close review modal first if open
+    if (this.showReviewModal()) {
+      this.isReviewModalClosing.set(true);
+    }
+    
     // Trigger closing animation
     this.isClosing.set(true);
     
@@ -175,6 +222,8 @@ export class ProductDetailModalComponent implements OnChanges, OnDestroy, AfterV
     // Wait for animation to complete before actually closing
     setTimeout(() => {
       this.isClosing.set(false);
+      this.showReviewModal.set(false);
+      this.isReviewModalClosing.set(false);
       this.close.emit();
       
       // Restore focus to previously focused element
@@ -328,6 +377,145 @@ export class ProductDetailModalComponent implements OnChanges, OnDestroy, AfterV
     if (!img.src.startsWith('data:image/svg+xml')) {
       img.src = this.FALLBACK_PRODUCT_IMAGE;
     }
+  }
+  
+  // Open review modal
+  openReviewModal() {
+    this.showReviewModal.set(true);
+    this.isReviewModalClosing.set(false);
+  }
+  
+  // Close review modal only (keep product modal open)
+  closeReviewModal() {
+    this.isReviewModalClosing.set(true);
+    setTimeout(() => {
+      this.showReviewModal.set(false);
+      this.isReviewModalClosing.set(false);
+    }, 300);
+  }
+  
+  // Close both modals
+  closeAllModals() {
+    // First close review modal
+    if (this.showReviewModal()) {
+      this.isReviewModalClosing.set(true);
+    }
+    // Then close product modal
+    this.closeModal();
+  }
+  
+  // Calculate average rating
+  getAverageRating(): number {
+    const reviews = this.productReviews();
+    if (reviews.length === 0) return 0;
+    const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+    return Math.round((sum / reviews.length) * 10) / 10;
+  }
+  
+  // Get rating circle size based on rating (scales from 36px at 1 star to 72px at 5 stars)
+  getRatingCircleSize(): number {
+    const rating = this.getAverageRating();
+    const minSize = 36; // Minimum size at rating 1
+    const maxSize = 72; // Maximum size at rating 5
+    // Linear interpolation: size = minSize + (rating - 1) * (maxSize - minSize) / 4
+    return Math.round(minSize + (rating - 1) * (maxSize - minSize) / 4);
+  }
+  
+  // Get font size for rating number (scales proportionally with circle)
+  getRatingFontSize(): number {
+    const circleSize = this.getRatingCircleSize();
+    return Math.round(circleSize * 0.3); // Font is ~30% of circle size
+  }
+  
+  // Get star badge size (scales proportionally with circle)
+  getStarBadgeSize(): number {
+    const circleSize = this.getRatingCircleSize();
+    return Math.round(circleSize * 0.35); // Badge is ~35% of circle size
+  }
+  
+  // Get star fill percentage for partial star display (1-indexed)
+  getStarFillPercentage(starIndex: number): number {
+    const rating = this.getAverageRating();
+    const fillAmount = rating - (starIndex - 1);
+    return Math.max(0, Math.min(1, fillAmount)) * 100;
+  }
+  
+  // Calculate rating distribution (percentage for each star level)
+  getRatingDistribution(): { star: number; count: number; percentage: number }[] {
+    const reviews = this.productReviews();
+    const total = reviews.length;
+    
+    // Count reviews for each star level (5 to 1)
+    const distribution = [5, 4, 3, 2, 1].map(star => {
+      const count = reviews.filter(r => r.rating === star).length;
+      const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+      return { star, count, percentage };
+    });
+    
+    return distribution;
+  }
+  
+  // Set rating for new comment
+  setNewRating(rating: number) {
+    this.newRating.set(rating);
+  }
+  
+  // Check if comment is valid (has non-whitespace content)
+  isCommentValid(): boolean {
+    return this.newCommentValue.trim().length > 0;
+  }
+  
+  // Submit new comment
+  submitComment() {
+    const comment = this.newCommentValue.trim();
+    if (!comment) return;
+    
+    const newReview = {
+      id: Date.now(),
+      userName: 'Bạn',
+      userAvatar: 'assets/avatars/default.png',
+      rating: this.newRating(),
+      comment: comment,
+      date: new Date().toLocaleString('vi-VN', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      })
+    };
+    
+    this.productReviews.update(reviews => [newReview, ...reviews]);
+    this.newCommentValue = ''; // Reset the two-way binding property
+    this.newComment.set('');
+    this.newRating.set(5);
+    
+    // Reset textarea height
+    const textarea = document.querySelector('.comment-textarea') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.style.height = '44px';
+    }
+  }
+  
+  // Handle comment input - updates value immediately on each keystroke
+  onCommentInput(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    this.newCommentValue = textarea.value;
+    
+    // Auto-expand textarea
+    textarea.style.height = '44px'; // Reset to min height (matches button height)
+    const scrollHeight = textarea.scrollHeight;
+    const maxHeight = 120; // Max height in pixels
+    textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
+  }
+  
+  // Auto-expand textarea as user types (kept for backward compatibility)
+  autoExpandTextarea(event: Event) {
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = '44px'; // Reset to min height (matches button height)
+    const scrollHeight = textarea.scrollHeight;
+    const maxHeight = 120; // Max height in pixels
+    textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
   }
   
   ngOnDestroy() {
