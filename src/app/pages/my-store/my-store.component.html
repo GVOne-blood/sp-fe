@@ -1,0 +1,127 @@
+<main class="container mx-auto flex flex-1 px-6 py-10 min-h-[calc(100vh-80px)]">
+    <!-- CASE 1: User has NO store (Image 2) -->
+    @if (!user()?.hasStore) {
+        <div class="flex flex-1 items-center justify-center">
+            <div class="bg-content-light dark:bg-content-dark p-8 sm:p-12 rounded-2xl border border-border-light dark:border-border-dark flex flex-col md:flex-row items-center gap-12 max-w-5xl w-full shadow-sm">
+                <!-- Left: Illustration/Image Placeholder -->
+                <div class="w-full md:w-1/2 flex justify-center">
+                   <div class="bg-primary/5 rounded-full p-12 aspect-square flex items-center justify-center w-64 h-64 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+                        <!-- You might want to use a real image here as per design -->
+                        <span class="material-symbols-outlined text-9xl text-primary/40">storefront</span>
+                   </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <h1 class="text-4xl font-bold tracking-tight text-text-light-primary dark:text-text-dark-primary mb-4">Mở cửa hàng, mở tương lai</h1>
+                    <p class="text-lg text-text-light-secondary dark:text-text-dark-secondary mb-8 leading-relaxed">
+                        Bắt đầu hành trình kinh doanh thực phẩm sạch của bạn trên SpringFood ngay hôm nay và tiếp cận hàng ngàn khách hàng tiềm năng.
+                    </p>
+
+                    <button (click)="createStore()" class="inline-flex items-center justify-center rounded-full bg-transparent border-2 border-primary text-text-light-primary dark:text-text-dark-primary px-8 py-3 text-base font-bold hover:bg-primary hover:text-white transition-all duration-300">
+                        Tạo cửa hàng của bạn
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Grid (Optional, based on design context usually below hero) -->
+        <!-- Adding this as it appears in Image 2 bottom part -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto w-full" *ngIf="false"> <!-- Hidden for now as I focused on main card, but structure is here -->
+             <!-- Feature 1 -->
+             <div class="flex flex-col gap-4">
+                <div class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">rocket_launch</span>
+                </div>
+                <h3 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Thiết lập nhanh chóng</h3>
+                <p class="text-text-light-secondary dark:text-text-dark-secondary">Tạo cửa hàng của bạn chỉ trong vài phút với giao diện đơn giản.</p>
+             </div>
+             <!-- ... other features -->
+        </div>
+    }
+
+    <!-- CASE 2: User HAS store (Image 3) -->
+    @else {
+        <div class="flex w-full md:gap-8 lg:gap-12">
+            <aside class="w-full flex-shrink-0 md:w-64 md:mb-0 mb-8 hidden md:block">
+              <div class="flex h-full flex-col">
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-12 border border-border-light dark:border-border-dark"
+                       style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgjZ9GwA2m2p3P5NE403dzCnqP20TuT0CYAJQgc_pm1OBq76QsQZRldqxKzi3908A36n-cMI1DQ4R_oBcfc6AdyZwLIGrIiA_WBe-rCgD-cHEG4cbCZUxGt7d4lrvrcs8qtLcrlYLMg0niB-fA7AhvrJ4CbOZ8Ny31XyejpmLXDpGsIzHOXpYuBjdNOIe_SUniWX_VYeP0wF1dYE6xL6kuFAxFpTSmxcOAkL2kdGiv-dV-oWWp4pyVhcNiy0Ledtbl6U-Wr4JOF2MB");'></div>
+                  <div class="flex flex-col">
+                    <h1 class="text-base font-semibold">An's Fresh Farm</h1>
+                    <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">&#64;ans-fresh-farm</p>
+                  </div>
+                </div>
+                <nav class="flex flex-col gap-1">
+                  <p class="px-4 pt-4 pb-2 text-xs font-semibold uppercase text-text-light-secondary dark:text-text-dark-secondary tracking-wider">Hoạt động</p>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">local_shipping</span>
+                    <p class="text-sm font-medium">Vận chuyển</p>
+                  </a>
+                  <a class="flex items-center gap-3 rounded-lg bg-primary/20 px-4 py-2.5 text-text-light-primary dark:text-text-dark-primary" href="#">
+                    <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+                    <p class="text-sm font-medium">Quản lý Đơn hàng</p>
+                  </a>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <p class="text-sm font-medium">Quản lý Sản phẩm</p>
+                  </a>
+                  <p class="px-4 pt-4 pb-2 text-xs font-semibold uppercase text-text-light-secondary dark:text-text-dark-secondary tracking-wider">Phân tích &amp; Tăng trưởng</p>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">bar_chart</span>
+                    <p class="text-sm font-medium">Thống kê</p>
+                  </a>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">payments</span>
+                    <p class="text-sm font-medium">Doanh thu</p>
+                  </a>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">trending_up</span>
+                    <p class="text-sm font-medium">Phát triển</p>
+                  </a>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">support_agent</span>
+                    <p class="text-sm font-medium">Chăm sóc Khách hàng</p>
+                  </a>
+                  <p class="px-4 pt-4 pb-2 text-xs font-semibold uppercase text-text-light-secondary dark:text-text-dark-secondary tracking-wider">Quản trị</p>
+                  <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <p class="text-sm font-medium">Cài đặt Cửa hàng</p>
+                  </a>
+                  <div>
+                    <div class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-text-light-secondary dark:text-text-dark-secondary">
+                      <span class="material-symbols-outlined">folder_managed</span>
+                      <p class="text-sm font-medium">Nguồn lực</p>
+                    </div>
+                    <div class="mt-1 flex flex-col pl-7">
+                      <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">Nhân sự</a>
+                      <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm text-text-light-secondary dark:text-text-dark-secondary hover:bg-primary/20 hover:text-text-light-primary dark:hover:text-text-dark-primary transition-colors" href="#">Chính sách</a>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </aside>
+            <div class="flex-1">
+              <div class="bg-content-light dark:bg-content-dark p-6 sm:p-8 rounded-xl border border-border-light dark:border-border-dark flex flex-col h-full min-h-[600px]">
+                <div class="flex flex-wrap items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-6 mb-6">
+                  <div class="flex flex-col gap-1">
+                    <h1 class="text-2xl font-bold tracking-tight">Quản lý Đơn hàng</h1>
+                    <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Xem và quản lý tất cả các đơn hàng của bạn.</p>
+                  </div>
+                  <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary/20 text-text-light-primary dark:text-text-dark-primary text-sm font-bold hover:bg-primary/30 transition-colors">
+                    <span>Xuất báo cáo</span>
+                  </button>
+                </div>
+                <div class="flex flex-1 items-center justify-center text-center">
+                  <div class="flex flex-col items-center gap-4 text-text-light-secondary dark:text-text-dark-secondary">
+                    <span class="material-symbols-outlined text-6xl opacity-50">receipt_long</span>
+                    <p class="max-w-xs">Nội dung cho mục 'Quản lý Đơn hàng' sẽ được hiển thị ở đây. Bạn có thể xem chi tiết, cập nhật trạng thái và xử lý các đơn hàng.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    }
+</main>
