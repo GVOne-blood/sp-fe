@@ -1,111 +1,107 @@
-<main class="container mx-auto flex flex-1 flex-col px-6 py-10 md:flex-row md:gap-8 lg:gap-12 min-h-[calc(100vh-80px)]">
-    <aside class="w-full flex-shrink-0 md:w-64 md:mb-0 mb-8">
-      <div class="flex h-full flex-col gap-4">
-        <div class="flex items-center gap-4">
-          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 border border-border-light dark:border-border-dark"
-               [style.background-image]="'url(' + user()?.avatarUrl + ')'"></div>
-          <div class="flex flex-col">
-            <h1 class="text-base font-semibold">{{ user()?.firstName }} {{ user()?.lastName }}</h1>
-            <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Member since {{ user()?.joinDate }}</p>
-          </div>
+<main class="profile-page">
+  <!-- Sidebar -->
+  <app-profile-sidebar [activeRoute]="'/profile'"></app-profile-sidebar>
+
+  <!-- Main Content -->
+  <div class="profile-content">
+    <div class="content-card">
+      <!-- Header -->
+      <div class="content-header">
+        <div class="header-text">
+          <h1 class="content-title">Thông tin cá nhân</h1>
+          <p class="content-subtitle">Xem và cập nhật thông tin cá nhân của bạn.</p>
         </div>
-        <nav class="mt-4 flex flex-col gap-2">
-          <a class="flex items-center gap-3 rounded-lg bg-primary/20 px-4 py-2.5 text-text-light-primary dark:text-text-dark-primary" routerLink="/profile">
-            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
-            <p class="text-sm font-medium">Thông tin cá nhân</p>
-          </a>
-          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 hover:bg-primary/20 transition-colors text-text-light-primary dark:text-text-dark-primary" href="#">
-            <span class="material-symbols-outlined">favorite</span>
-            <p class="text-sm font-medium">Sản phẩm yêu thích</p>
-          </a>
-          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 hover:bg-primary/20 transition-colors text-text-light-primary dark:text-text-dark-primary" href="#">
-            <span class="material-symbols-outlined">receipt_long</span>
-            <p class="text-sm font-medium">Lịch sử mua hàng</p>
-          </a>
-          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 hover:bg-primary/20 transition-colors text-text-light-primary dark:text-text-dark-primary" routerLink="/my-store">
-            <span class="material-symbols-outlined">storefront</span>
-            <p class="text-sm font-medium">Cửa hàng của tôi</p>
-          </a>
-        </nav>
-        <div class="mt-auto flex flex-col gap-1 border-t border-border-light dark:border-border-dark pt-4">
-          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 hover:bg-primary/20 transition-colors text-text-light-primary dark:text-text-dark-primary" href="#">
-            <span class="material-symbols-outlined">settings</span>
-            <p class="text-sm font-medium">Cài đặt</p>
-          </a>
-          <a class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer" href="#">
-            <span class="material-symbols-outlined">logout</span>
-            <p class="text-sm font-medium">Đăng xuất</p>
-          </a>
+        <button class="btn-edit">
+          <span class="material-symbols-outlined">edit</span>
+          <span>Chỉnh sửa</span>
+        </button>
+      </div>
+
+      <!-- Personal Info Grid -->
+      <div class="info-grid">
+        <div class="info-item">
+          <p class="info-label">Họ</p>
+          <p class="info-value">{{ user()?.firstName }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-label">Tên</p>
+          <p class="info-value">{{ user()?.lastName }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-label">Tên đăng nhập</p>
+          <p class="info-value">{{ user()?.username }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-label">Email</p>
+          <p class="info-value">{{ user()?.email }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-label">Giới tính</p>
+          <p class="info-value">{{ user()?.gender === 'Male' ? 'Nam' : 'Nữ' }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-label">Số điện thoại</p>
+          <p class="info-value">{{ user()?.phoneNumber }}</p>
         </div>
       </div>
-    </aside>
-    <div class="flex-1">
-      <div class="bg-content-light dark:bg-content-dark p-6 sm:p-8 rounded-xl border border-border-light dark:border-border-dark">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-border-light dark:border-border-dark pb-6 mb-6">
-          <div class="flex flex-col gap-1">
-            <h1 class="text-2xl font-bold tracking-tight">Thông tin cá nhân</h1>
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Xem và cập nhật thông tin cá nhân của bạn.</p>
+
+      <!-- Address Section -->
+      <div class="address-section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Địa chỉ giao hàng</h2>
+            <p class="section-subtitle">Quản lý các địa chỉ giao hàng của bạn.</p>
           </div>
-          <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary/20 text-text-light-primary dark:text-text-dark-primary text-sm font-bold hover:bg-primary/30 transition-colors">
-            <span>Chỉnh sửa thông tin</span>
+          <button class="btn-add">
+            <span class="material-symbols-outlined">add</span>
+            <span>Thêm địa chỉ</span>
           </button>
         </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">First Name</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.firstName }}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Last Name</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.lastName }}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Username</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.username }}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Email</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.email }}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Gender</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.gender }}</p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <p class="text-text-light-secondary dark:text-text-dark-secondary text-sm">Phone Number</p>
-            <p class="text-text-light-primary dark:text-text-dark-primary font-medium">{{ user()?.phoneNumber }}</p>
-          </div>
+
+        <!-- Address List - Will be replaced with AddressCard components -->
+        <div class="address-list">
+          @if (user()?.address) {
+            <div class="address-card default">
+              <div class="address-badge">
+                <span class="material-symbols-outlined">check_circle</span>
+                Mặc định
+              </div>
+              <div class="address-content">
+                <p class="address-name">{{ user()?.firstName }} {{ user()?.lastName }}</p>
+                <p class="address-phone">{{ user()?.phoneNumber }}</p>
+                <p class="address-detail">
+                  {{ user()?.address?.street }}, {{ user()?.address?.ward }}, 
+                  {{ user()?.address?.district }}, {{ user()?.address?.city }}
+                </p>
+              </div>
+              <div class="address-actions">
+                <button class="action-btn" title="Chỉnh sửa">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button class="action-btn" title="Xóa">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+            </div>
+          } @else {
+            <div class="empty-state">
+              <span class="material-symbols-outlined">location_off</span>
+              <p>Chưa có địa chỉ nào được lưu</p>
+              <button class="btn-add-empty">Thêm địa chỉ mới</button>
+            </div>
+          }
         </div>
-        <div class="mt-8 border-t border-border-light pt-6 dark:border-border-dark">
-          <h2 class="text-lg font-semibold leading-7 text-text-light-primary dark:text-text-dark-primary">Địa chỉ giao hàng</h2>
-          <p class="mt-1 text-sm leading-6 text-text-light-secondary dark:text-text-dark-secondary">Cập nhật địa chỉ giao hàng của bạn.</p>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-6">
-              <label class="block text-sm font-medium leading-6 text-text-light-primary dark:text-text-dark-primary" for="street-address">Địa chỉ chi tiết</label>
-              <div class="mt-2">
-                <input class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-text-light-primary dark:text-text-dark-primary shadow-sm ring-1 ring-inset ring-border-light dark:ring-border-dark placeholder:text-text-light-secondary/50 focus:ring-2 focus:ring-inset focus:ring-primary/50 sm:text-sm sm:leading-6" id="street-address" name="street-address" placeholder="123 Đường ABC" type="text" [value]="user()?.address?.street"/>
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium leading-6 text-text-light-primary dark:text-text-dark-primary" for="ward">Phường / Xã</label>
-              <div class="mt-2">
-                <input class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-text-light-primary dark:text-text-dark-primary shadow-sm ring-1 ring-inset ring-border-light dark:ring-border-dark placeholder:text-text-light-secondary/50 focus:ring-2 focus:ring-inset focus:ring-primary/50 sm:text-sm sm:leading-6" id="ward" name="ward" placeholder="Phường 1" type="text" [value]="user()?.address?.ward"/>
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium leading-6 text-text-light-primary dark:text-text-dark-primary" for="district">Quận / Huyện</label>
-              <div class="mt-2">
-                <input class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-text-light-primary dark:text-text-dark-primary shadow-sm ring-1 ring-inset ring-border-light dark:ring-border-dark placeholder:text-text-light-secondary/50 focus:ring-2 focus:ring-inset focus:ring-primary/50 sm:text-sm sm:leading-6" id="district" name="district" placeholder="Quận 1" type="text" [value]="user()?.address?.district"/>
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label class="block text-sm font-medium leading-6 text-text-light-primary dark:text-text-dark-primary" for="city">Tỉnh / Thành phố</label>
-              <div class="mt-2">
-                <input class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-text-light-primary dark:text-text-dark-primary shadow-sm ring-1 ring-inset ring-border-light dark:ring-border-dark placeholder:text-text-light-secondary/50 focus:ring-2 focus:ring-inset focus:ring-primary/50 sm:text-sm sm:leading-6" id="city" name="city" placeholder="Hồ Chí Minh" type="text" [value]="user()?.address?.city"/>
-              </div>
-            </div>
-          </div>
+
+        <!-- Google Maps Placeholder -->
+        <div class="maps-placeholder">
+          <span class="material-symbols-outlined">map</span>
+          <p>Thêm địa chỉ từ Google Maps</p>
+          <button class="btn-maps" disabled>
+            <span class="material-symbols-outlined">pin_drop</span>
+            Chọn từ bản đồ
+          </button>
         </div>
       </div>
     </div>
+  </div>
 </main>
