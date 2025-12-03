@@ -1,13 +1,12 @@
 <main class="container mx-auto flex flex-1 px-6 py-10 min-h-[calc(100vh-80px)]">
     <!-- CASE 1: User has NO store (Image 2) -->
     @if (!user()?.hasStore) {
-        <div class="flex flex-1 items-center justify-center">
+        <div class="flex flex-1 flex-col items-center justify-center w-full">
             <div class="bg-content-light dark:bg-content-dark p-8 sm:p-12 rounded-2xl border border-border-light dark:border-border-dark flex flex-col md:flex-row items-center gap-12 max-w-5xl w-full shadow-sm">
                 <!-- Left: Illustration/Image Placeholder -->
                 <div class="w-full md:w-1/2 flex justify-center">
                    <div class="bg-primary/5 rounded-full p-12 aspect-square flex items-center justify-center w-64 h-64 relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
-                        <!-- You might want to use a real image here as per design -->
                         <span class="material-symbols-outlined text-9xl text-primary/40">storefront</span>
                    </div>
                 </div>
@@ -24,27 +23,51 @@
                     </button>
                 </div>
             </div>
-        </div>
 
-        <!-- Features Grid (Optional, based on design context usually below hero) -->
-        <!-- Adding this as it appears in Image 2 bottom part -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto w-full" *ngIf="false"> <!-- Hidden for now as I focused on main card, but structure is here -->
-             <!-- Feature 1 -->
-             <div class="flex flex-col gap-4">
-                <div class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center">
-                    <span class="material-symbols-outlined text-primary">rocket_launch</span>
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-5xl w-full">
+                <div class="flex flex-col gap-4 p-6 rounded-xl bg-content-light dark:bg-content-dark border border-border-light dark:border-border-dark">
+                    <div class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">rocket_launch</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Thiết lập nhanh chóng</h3>
+                    <p class="text-text-light-secondary dark:text-text-dark-secondary">Tạo cửa hàng của bạn chỉ trong vài phút với giao diện đơn giản.</p>
                 </div>
-                <h3 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Thiết lập nhanh chóng</h3>
-                <p class="text-text-light-secondary dark:text-text-dark-secondary">Tạo cửa hàng của bạn chỉ trong vài phút với giao diện đơn giản.</p>
-             </div>
-             <!-- ... other features -->
+                <div class="flex flex-col gap-4 p-6 rounded-xl bg-content-light dark:bg-content-dark border border-border-light dark:border-border-dark">
+                    <div class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">groups</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Tiếp cận khách hàng</h3>
+                    <p class="text-text-light-secondary dark:text-text-dark-secondary">Kết nối với hàng ngàn khách hàng đang tìm kiếm thực phẩm sạch.</p>
+                </div>
+                <div class="flex flex-col gap-4 p-6 rounded-xl bg-content-light dark:bg-content-dark border border-border-light dark:border-border-dark">
+                    <div class="bg-primary/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">trending_up</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-light-primary dark:text-text-dark-primary">Phát triển bền vững</h3>
+                    <p class="text-text-light-secondary dark:text-text-dark-secondary">Công cụ phân tích và hỗ trợ giúp bạn phát triển kinh doanh.</p>
+                </div>
+            </div>
         </div>
     }
 
     <!-- CASE 2: User HAS store (Image 3) -->
     @else {
-        <div class="flex w-full md:gap-8 lg:gap-12">
-            <aside class="w-full flex-shrink-0 md:w-64 md:mb-0 mb-8 hidden md:block">
+        <div class="flex flex-col md:flex-row w-full md:gap-8 lg:gap-12">
+            <!-- Mobile Store Header -->
+            <div class="flex md:hidden items-center gap-4 mb-6 p-4 bg-content-light dark:bg-content-dark rounded-xl border border-border-light dark:border-border-dark">
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-12 border border-border-light dark:border-border-dark"
+                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgjZ9GwA2m2p3P5NE403dzCnqP20TuT0CYAJQgc_pm1OBq76QsQZRldqxKzi3908A36n-cMI1DQ4R_oBcfc6AdyZwLIGrIiA_WBe-rCgD-cHEG4cbCZUxGt7d4lrvrcs8qtLcrlYLMg0niB-fA7AhvrJ4CbOZ8Ny31XyejpmLXDpGsIzHOXpYuBjdNOIe_SUniWX_VYeP0wF1dYE6xL6kuFAxFpTSmxcOAkL2kdGiv-dV-oWWp4pyVhcNiy0Ledtbl6U-Wr4JOF2MB");'></div>
+                <div class="flex flex-col flex-1">
+                    <h1 class="text-base font-semibold text-text-light-primary dark:text-text-dark-primary">An's Fresh Farm</h1>
+                    <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">&#64;ans-fresh-farm</p>
+                </div>
+                <button class="p-2 rounded-lg hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-text-light-secondary dark:text-text-dark-secondary">menu</span>
+                </button>
+            </div>
+            
+            <aside class="w-full flex-shrink-0 md:w-64 mb-8 md:mb-0 hidden md:block">
               <div class="flex h-full flex-col">
                 <div class="flex items-center gap-4 mb-6">
                   <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-12 border border-border-light dark:border-border-dark"

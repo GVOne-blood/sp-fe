@@ -1,0 +1,30 @@
+/* Profile Page Styles */
+
+/* Input fields */
+input[type="text"] {
+  padding: 0.625rem 0.875rem;
+  background-color: var(--color-content-light);
+}
+
+:host-context(.dark) input[type="text"] {
+  background-color: var(--color-content-dark);
+}
+
+/* Focus states */
+input:focus {
+  outline: none;
+}
+
+/* Sidebar navigation active state */
+nav a.active {
+  background-color: rgba(var(--color-primary-rgb), 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  aside {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+  }
+}

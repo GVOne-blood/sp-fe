@@ -1,0 +1,37 @@
+/* My Store Page Styles */
+
+/* Sidebar navigation */
+aside nav a {
+  transition: all 0.2s ease;
+}
+
+/* Empty state illustration animation */
+.bg-primary\/5 {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Feature cards hover effect */
+.grid > div {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grid > div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile menu button */
+@media (max-width: 768px) {
+  .flex-col.md\:flex-row {
+    gap: 0;
+  }
+}
