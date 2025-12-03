@@ -51,7 +51,8 @@
     - Match website color scheme
 
     - _Requirements: 2.1, 2.2_
-  - [ ] 3.3 Add mobile responsive navigation
+  - [x] 3.3 Add mobile responsive navigation
+
     - Collapsible sidebar or bottom nav for mobile
     - _Requirements: 1.3_
 
@@ -60,13 +61,19 @@
 
 ## Phase 2: Address Management System
 
-- [ ] 5. Create LocationService for Vietnam addresses
-  - [ ] 5.1 Create service with mock data
+- [x] 5. Create LocationService for Vietnam addresses
+
+
+
+  - [x] 5.1 Create service with mock data
+
     - Define Province, District, Ward interfaces
     - Add mock data for provinces, districts, wards
     - Implement getProvinces(), getDistrictsByProvince(), getWardsByDistrict()
     - _Requirements: 3.6, 3.7_
-  - [ ] 5.2 Write property test for cascading filter
+  - [x] 5.2 Write property test for cascading filter
+
+
     - **Property 3: Cascading Province-District Filter**
     - **Property 4: Cascading District-Ward Filter**
     - **Validates: Requirements 3.6, 3.7**
